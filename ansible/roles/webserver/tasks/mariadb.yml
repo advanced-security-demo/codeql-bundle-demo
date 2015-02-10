@@ -1,0 +1,30 @@
+---
+- name: Add APT GPG Signing Key
+  apt_key: url=http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xCBCB082A1BB943DB state=present
+
+- name: Add APT repository
+  apt_repository: repo='deb http://ftp.osuosl.org/pub/mariadb/repo/10.0/ubuntu trusty main' state=present update_cache=yes
+
+- name: Install MariaDB server package
+  apt: name=mariadb-server state=present
+
+- name: Start Mysql Service
+  service: name=mysql state=started enabled=true
+
+- name: Install python Mysql package #required for mysql_db tasks
+  apt: name=python-mysqldb state=present
+
+- name: Create a new database
+  mysql_db: name=demo state=present collation=utf8_general_ci
+
+- name: Create a database user
+  mysql_user: name=demo password=demo priv=*.*:ALL host=localhost state=present
+
+- name: Copy sample data
+  copy: src=dump.sql dest=/tmp/dump.sql
+
+- name: Insert sample data
+  shell: cat /tmp/dump.sql | mysql -u demo -pdemo demo
+
+- name: Install MySQL extension for PHP
+  apt: name=php5-mysql state=present

@@ -1,0 +1,5 @@
+---
+- name: Rax.io Security/Automation Workshop
+  hosts: servers
+  roles:
+    - webserver
