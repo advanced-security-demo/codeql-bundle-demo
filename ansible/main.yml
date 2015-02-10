@@ -3,3 +3,4 @@
   hosts: servers
   roles:
     - webserver
+    - selenium-grid

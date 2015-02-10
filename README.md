@@ -5,6 +5,8 @@
 * Vagrant
 * Host Ports: 2222 and 8080
 
+## Install
+
 ```
 vagrant up
 vagrant provision

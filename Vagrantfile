@@ -8,6 +8,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "ubuntu/trusty64"
 
   config.vm.network "forwarded_port", guest: 80, host: 8080
+  config.vm.network "forwarded_port", guest: 49044, host: 49044
+
+  config.vm.provision "docker", images: ["dsgrid/selenium-hub", "dsgrid/firefox-node"]
 
   config.vm.provision "ansible" do |ansible|
     ansible.sudo = true
@@ -16,5 +19,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ansible.verbose = "v"
     ansible.limit = "development"
   end
+
+
 
 end
