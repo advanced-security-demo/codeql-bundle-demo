@@ -1,18 +1,18 @@
 <?php
 require_once("top.php");
 ?>
-<a href="?env=<?php echo $_GET['env'] ?>&operations=GetBillingDay&num=10">See without Payments</a>
+<a href="?env=<?php echo $_GET['env'] ?>&operations=GetBillingDay&id=1">See without Payments</a>
 <div id="main-container">
 	<div id="main" class="wrapper clearfix">
 	<content>
 		<table class="list" cellpadding="1">
 <?php
-if ( !isset($_GET['num']) ){
+if ( !isset($_GET['id']) ){
     $num_entries = 10;
 }
 else{
 
-$num_entries = $_GET['num'];
+$num_entries = $_GET['id'];
 }
 
 if (!$link = mysql_connect($host, $user, $pass)) {
@@ -27,7 +27,7 @@ if (!mysql_select_db('demo', $link)) {
 
 
 
-$query = "select * from tracking_error order by id desc limit " . $num_entries . ";";
+$query = "select * from tracking_error where id=" . $num_entries . " order by id;";
 $result = mysql_query($query, $link);
 if (!$result)
 {
