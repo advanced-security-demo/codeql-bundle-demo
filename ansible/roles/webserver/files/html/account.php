@@ -35,7 +35,7 @@ if (is_numeric($account)) {
         if ($row->status == 'Error') { echo $cssTrick = '<td id="error">' . $row->status; } else { echo "<td> $row->status </td>"; };
         echo "<td>" . $row->interface . "</td>";
         echo "<td>" . $row->operation . "</td>";
-        echo "<td><a href=detail.php?env=".$env. "&correlationID=" . urlencode($row->id) ." > " . $row->id . "</a></td>";
+        echo "<td>" . $row->id . "</td>";
         echo "</tr>";
 
     }

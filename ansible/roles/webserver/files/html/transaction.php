@@ -1,4 +1,4 @@
-<?
+<?php
 require_once("top.php");
 include("xmlpp.php");
 ?>
@@ -6,9 +6,9 @@ include("xmlpp.php");
 <div id="main-container">
         <div id="main" class="wrapper clearfix">
         <content>
-<?
+<?php
 try {
-	$dbh = new PDO("mysql:host=$host;dbname=tracking", $user, $pass);
+	$dbh = new PDO("mysql:host=$host;dbname=demo", $user, $pass);
     $findChildSTH = $dbh->prepare("select * from tracking where id = :trackingID");
     $findChildSTH->execute(array(':trackingID' => urlDecode($trackingId)));
 
