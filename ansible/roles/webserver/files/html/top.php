@@ -81,7 +81,7 @@ require_once("includes/config.php");
     </div>
 <?php
 if ($loggedin) {
-    echo 'Logged in as: '.$username.' | <a href="/graphs.php">Graphs</a> | <a href="/?action=logout">Logout</a><br />';;
+    echo 'Logged in as: '.$username.' | <a href="/?action=logout">Logout</a><br />';;
 }
 require_once("subheader.php");
 ?>
