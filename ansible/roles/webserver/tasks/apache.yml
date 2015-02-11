@@ -3,6 +3,8 @@
   apt: name=apache2 state=present
 - name: Install PHP module for Apache
   apt: name=libapache2-mod-php5 state=present
+  notify:
+    - restart apache
 - name: Start Apache
   service: name=apache2 state=running enabled=yes
 
