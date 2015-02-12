@@ -1,7 +1,7 @@
 <?php
 require_once("top.php");
 ?>
-<a href="?env=<?php echo $_GET['env'] ?>&operations=GetBillingDay&id=1">See without Payments</a>
+<a href="?env=<?php echo $_GET['env'] ?>&operations=<?php echo $_GET['operations'] ?>&id=1">See without Payments</a>
 <div id="main-container">
 	<div id="main" class="wrapper clearfix">
 	<content>
@@ -34,14 +34,14 @@ if (!$result)
         print("No Result: " . mysql_error());
 }
 print("</h6><h3>");
-print("<table border='10'>");
+print("<table border='10' width='800px'>");
 print("<th>Tracking ID</th><th>Type</th><th>Message</th>");
 while ($row = mysql_fetch_array($result))
 {
         print("<tr>");
         print("<td>" . $row['tracking_id'] . "</td>");
         print("<td>" . $row['type'] . "</td>");
-        print("<td>" . $row['message'] . "</td>");
+        print("<td>" . htmlentities($row['message']) . "</td>");
         print("</tr>");
 }
 mysql_close($link);

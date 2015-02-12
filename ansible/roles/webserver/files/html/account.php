@@ -5,7 +5,7 @@ require_once("top.php");
 <div id="main-container">
         <div id="main" class="wrapper clearfix">
         <content>
-                <table class="list">
+                <table class="list"><tr><td colspan=7><?php echo $_GET['account'] ?></td></tr>
 <?php
 try {
 	$dbh = new PDO("mysql:host=$host;dbname=demo", $user, $pass);
@@ -35,7 +35,7 @@ if (is_numeric($account)) {
         if ($row->status == 'Error') { echo $cssTrick = '<td id="error">' . $row->status; } else { echo "<td> $row->status </td>"; };
         echo "<td>" . $row->interface . "</td>";
         echo "<td>" . $row->operation . "</td>";
-        echo "<td>" . $row->id . "</td>";
+        echo "<td><a href='detail.php?id=". $row->id . "'>" . $row->id . "</a></td>";
         echo "</tr>";
 
     }
