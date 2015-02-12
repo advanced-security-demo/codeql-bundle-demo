@@ -76,7 +76,7 @@ require_once("includes/config.php");
         <!-- Top Logo thinggy -->
 
         <header class="wrapper clearfix">
-            <a href="https://dashboard.ci.rackspace.net/trackingdb/"><h1 id="title">Tracking Database Viewer</h1></a>
+            <h1 id="title">Demo Database Viewer</h1>
         </header>
     </div>
 <?php
