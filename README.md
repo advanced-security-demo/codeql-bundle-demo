@@ -3,7 +3,9 @@
 
 * Ansible
 * Vagrant
-* Host Ports: 2222 and 8080
+* Host Ports:
+    * SSH: 2222
+    * Apache: 8888
 
 ## Install
 
