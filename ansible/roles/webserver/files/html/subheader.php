@@ -31,7 +31,7 @@
         </tr>
     </table>
     <b>Billing Errors:</b>
-    <a href="billing.php?env=us_prod&id=1">US</a> | <a href="billing.php?env=uk_prod&id=1">UK</a><br />
+    <a href="billing.php?env=us_prod&id=1" name="us_billing">US</a> | <a href="billing.php?env=uk_prod&id=1" name="uk_billing">UK</a><br />
     </div> <!-- #main -->
     </div> <!-- #main-container -->
 </aside>
