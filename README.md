@@ -15,7 +15,15 @@ vagrant provision
 ```
 
 
-## Troubleshooting
+## ProTip
+
+Disable Host bastion catch all
+
+```
+# ~/.ssh/config
+Host localhost
+   ProxyCommand none
+```
 
 
 ### Ansible not installed
