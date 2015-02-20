@@ -26,7 +26,7 @@ if ($_GET['error'] == '1') {
                             <label class="checkbox">
                                 <input type="checkbox"> Remember me
                             </label>
-                            <button type="submit" class="btn">Sign in</button>
+                            <button type="submit" name="signin" class="btn">Sign in</button>
                         </div>
                     </div>
                 </form>
