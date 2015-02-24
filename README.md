@@ -36,3 +36,8 @@ found in the PATH variable. This is an error. Please verify
 this software is installed and on the path.
 ```
 
+## Security Automation Tests
+
+To run the first 2 security tests (demonstrated in the SQLi and XSS demos),
+you can run the `security-demo.py` file. The `security-exercise.py` file has
+the other two tests (from the exercise portion).
