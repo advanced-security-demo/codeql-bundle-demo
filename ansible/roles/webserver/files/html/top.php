@@ -54,7 +54,7 @@ require_once("includes/config.php");
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         <link rel="stylesheet" type="text/css" href="default.css" />
-        <title> Trackng database for <?php echo $prettyName ?></title>
+        <title> Demo Application for <?php echo $prettyName ?></title>
         <script type="text/javascript" language="javascript">
             function Refresh(env){
                 location.href="index.php?env=" + env
@@ -76,7 +76,7 @@ require_once("includes/config.php");
         <!-- Top Logo thinggy -->
 
         <header class="wrapper clearfix">
-            <h1 id="title">Demo Database Viewer</h1>
+            <h1 id="title">Demo Application</h1>
         </header>
     </div>
 <?php

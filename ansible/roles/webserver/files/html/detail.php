@@ -29,7 +29,7 @@ if (!mysql_select_db('demo', $link)) {
 }
 
 
-$query = "select * from tracking where id=" . $id . " order by id;";
+$query = "select * from tracking where id='" . $id . "' order by id;";
 $result = mysql_query($query, $link);
 if (!$result)
 {
