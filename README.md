@@ -7,6 +7,18 @@
     * SSH: 2222
     * Apache: 8888
 
+
+## ProTip
+
+Disable Host bastion catch all
+
+```
+# ~/.ssh/config
+Host localhost
+   ProxyCommand none
+```
+
+
 ## Install
 
 ```
@@ -15,7 +27,6 @@ vagrant provision
 ```
 
 
-## Troubleshooting
 
 
 ### Ansible not installed
