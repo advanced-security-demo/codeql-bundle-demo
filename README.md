@@ -26,6 +26,11 @@ vagrant up
 vagrant provision
 ```
 
+If you are setting up during the workshop and you use the box from the USB
+stick, you will need to import the box first. On a Mac this might look like:
+    `vagrant box add 'ubuntu/trusty64' /Volumes/USB\ DISK/ub64.box`
+
+You can then run the rest of the install steps (should just need `vagrant up`)
 
 
 
