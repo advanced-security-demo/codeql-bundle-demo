@@ -1,6 +1,5 @@
 ---
-- name: Rax.io Security/Automation Workshop
+- name: QE Security Champion training
   hosts: servers
   roles:
     - webserver
-    - selenium-grid
