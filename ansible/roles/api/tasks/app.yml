@@ -6,7 +6,7 @@
   pip: name=requests
 
 - name: Upload Application
-  copy: src=files/vAPI.py dest=/var/www/api/
+  copy: src=vAPI.py dest=/var/www/api/
 
 - name: Start API
-  shell: /bin/python /var/www/api/vAPI.py
+  shell: "/usr/bin/python /var/www/api/vAPI.py 2>&1 &"
