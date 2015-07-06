@@ -1,3 +1,5 @@
+## Description
+
 This repository contains an example PHP application that is vulnerable to several different web application attacks.
 
 ## Requirements
@@ -15,9 +17,10 @@ vagrant up
 vagrant provision
 ```
 
-## SSH ProTip
+## Problems with install
 
-Disable host bastion catch-all in `~/.ssh/config` by adding this line:
+### Vagrant SSH Issue
+If SSH is set up to forward through a bastion on your machine, you'll need to add an exception in `~/.ssh/config` by adding this line:
 
 ```
 Host localhost
