@@ -1,0 +1,12 @@
+---
+- name: Install Bottle
+  pip: name=bottle
+
+- name: Install requests
+  pip: name=requests
+
+- name: Upload Application
+  copy: src=files/vAPI.py dest=/var/www/api/
+
+- name: Start API
+  shell: /bin/python /var/www/api/vAPI.py

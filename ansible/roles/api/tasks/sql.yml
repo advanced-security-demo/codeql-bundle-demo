@@ -1,0 +1,3 @@
+---
+- name: Upload Database
+  copy: src=files/vAPI.db dest=/var/www/api/
