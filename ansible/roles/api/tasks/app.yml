@@ -6,7 +6,19 @@
   pip: name=requests
 
 - name: Upload Application
-  copy: src=files/vAPI.py dest=/var/www/api/
+  copy: src=vAPI.py dest=/var/www/api/
 
-- name: Start API
-  shell: /bin/python /var/www/api/vAPI.py
+- name: Upload supervisor config
+  copy: src=vAPI.conf dest=/etc/supervisor/conf.d/
+
+- name: Stop supervisord
+  shell: killall supervisord
+  args:
+    sudo: yes
+    sudo_user: vagrant
+
+- name: Start supervisord
+  shell: supervisord -c /etc/supervisor/supervisord.conf
+  args:  
+    sudo: yes
+    sudo_user: vagrant

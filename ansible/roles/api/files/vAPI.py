@@ -105,6 +105,7 @@ def get_user(user):
     token_record = c.fetchone()
     c.close()
     response = {}
+    # you'll notice we don't actually check the token expiration date
     if type(token_record) == tuple:
         if type(user_record) == tuple:
             if token_record[2] == user_record[0]:
@@ -122,4 +123,4 @@ def get_user(user):
     return {'response': response}
 
 debug(True)
-run(port=8081, reloader=True)
+run(host='0.0.0.0', port=8081, reloader=True)
