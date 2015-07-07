@@ -6,9 +6,6 @@ This repository contains an example PHP application that is vulnerable to severa
 
 * [Ansible][ansible]
 * [Vagrant][vagrant]
-* Host Ports:
-    * SSH: 2222
-    * Apache: 8888
 
 ## Install
 
@@ -16,6 +13,10 @@ This repository contains an example PHP application that is vulnerable to severa
 vagrant up
 vagrant provision
 ```
+
+## WebApp Details
+
+The web application can be accessed at [http://192.168.13.37/][webapp]. If you need to change anything in the app's VM, use `vagrant ssh`.
 
 ## Problems with install
 
@@ -36,3 +37,4 @@ this software is installed and on the path.
 
 [ansible]: http://docs.ansible.com/intro_installation.html
 [vagrant]: https://www.vagrantup.com/downloads.html
+[webapp]: http://192.168.13.37/
