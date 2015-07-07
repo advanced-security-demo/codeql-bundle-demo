@@ -16,7 +16,11 @@ vagrant provision
 
 ## WebApp Details
 
-The web application can be accessed at [http://192.168.13.37/][webapp]. If you need to change anything in the app's VM, use `vagrant ssh`.
+The example web application can be accessed at [http://192.168.13.37/][webapp]. If you need to change anything in the app's VM, use `vagrant ssh`.
+
+## API Details
+
+The example API can be accessed at 192.168.13.37:8081.
 
 ## Problems with install
 
