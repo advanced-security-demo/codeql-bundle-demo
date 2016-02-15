@@ -1,4 +1,0 @@
----
-- include: apache.yml
-- include: mariadb.yml
-- include: application.yml

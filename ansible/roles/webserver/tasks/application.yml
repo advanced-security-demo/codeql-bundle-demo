@@ -1,5 +1,0 @@
----
-- name: Upload Application
-  copy: src=html dest=/var/www/
-- name: Remove default Apache index.html
-  file: path=/var/www/html/index.html state=absent
