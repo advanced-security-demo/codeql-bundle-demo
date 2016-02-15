@@ -1,6 +1,5 @@
 ---
-- name: QE Security Champion training
+- name: Example of vulnerable web API
   hosts: servers
   roles:
-    - webserver
     - api
