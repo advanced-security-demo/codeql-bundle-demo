@@ -9,8 +9,8 @@ Ansible - https://www.ansible.com/
 ## Install
 
 
-Update vulnerable-api/ansible/roles/api/tasks/app.yaml
-* provide a user with sudo privileges in these two sections(replace **vagrant** sudo_user)
+Update *vulnerable-api/ansible/roles/api/tasks/app.yaml* as follows
+* Replace **vagrant** user with a user with sudo privileges in these two sections.
 
 ```
 - name: Stop supervisord
@@ -188,5 +188,16 @@ Content-Type: application/json
 }
 ```
 
-## Problems with install
+### List of Vulnerabilities
+Vulnerability Categories Include:
+1. Transport Layer Security
+2. User enumeration
+3. Information exposure through server headers
+4. Authentication bypass
+5. User input validation
+6. SQL injection
+7. Error handling
+8. Session management
+9. Encryption
+10. AuthN bypass
 
