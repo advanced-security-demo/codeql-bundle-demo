@@ -5,6 +5,9 @@
 - name: Install requests
   pip: name=requests
 
+- name: Install lxml 
+  pip: name=lxml
+
 - name: Upload Application
   copy: src=vAPI.py dest=/var/www/api/
 
@@ -15,10 +18,10 @@
   shell: killall supervisord
   args:
     sudo: yes
-    sudo_user: vagrant
+    sudo_user: vadmin
 
 - name: Start supervisord
   shell: supervisord -c /etc/supervisor/supervisord.conf
   args:  
     sudo: yes
-    sudo_user: vagrant
+    sudo_user: vadmin
