@@ -1,5 +1,5 @@
 ---
 - name: Example of vulnerable web API
-  hosts: servers
+  hosts: all 
   roles:
     - api
