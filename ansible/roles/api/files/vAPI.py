@@ -49,9 +49,8 @@ def get_token():
                 token = hashlib.md5(expire_date).hexdigest()
                 # we'll parameterize this one because we need this serious functionality
                 c.execute('INSERT INTO tokens (token, userid, expires) VALUES (?, ?, ?)', (token, user[0], expire_stamp))
+                conn.commit()
                 response['access']['token'] = {'id': token, 'expires': expire_date}
-                conn.commit()
-                conn.commit()
             else:
                 # recent token hasn't expired. use same one. 
                 expire_date = time.ctime(int(token_record[3]))
@@ -63,6 +62,7 @@ def get_token():
             token = hashlib.md5(expire_date).hexdigest()
             # we'll parameterize this one because we need this serious functionality
             c.execute('INSERT INTO tokens (token, userid, expires) VALUES (?, ?, ?)', (token, user[0], expire_stamp))
+            conn.commit()
             response['access']['token'] = {'id': token, 'expires': expire_date}
     else:
         # let's do another look up so we can return helpful info for failure cases
