@@ -4,7 +4,7 @@ This repository contains an example Python API that is vulnerable to several dif
 
 ## Requirements
 
-* [Ansible][ansible]
+Ansible - https://www.ansible.com/
 
 ## Install
 
