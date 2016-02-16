@@ -190,6 +190,7 @@ Content-Type: application/json
 
 ### List of Vulnerabilities
 Vulnerability Categories Include:
+
 1. Transport Layer Security
 2. User enumeration
 3. Information exposure through server headers
