@@ -57,6 +57,7 @@ vAPI is implemented using the Bottle Python Framework and consists of a user dat
 #### Test Users 
 
 Included with install
+
 | Username | Password |
 |----------|----------|
 |user{1-9} |pass{1-9} |
@@ -66,25 +67,31 @@ Included with install
 
 ##### URL
 
-<SYSTEM_IP>:8081
+SYSTEM_IP:8081
 
 ##### POST /tokens
 Request an Auth Token for a user
-1. Request Headers
-  * Accept: application/json
-  * Content-Type: application/json
-2. Request JSON Object
-  * username (string) - Name of user requesting token
-  * password (string) – Password of user requesting a token
-3. Response JSON Object
-  * token - expires (string) – The Auth Token expiration date/time
+
+###### Request Headers
+1. Accept: application/json
+2. Content-Type: application/json
+
+###### Request JSON Object
+1. username (string) - Name of user requesting token
+2. password (string) – Password of user requesting a token
+
+###### Response JSON Object
+1. token
+  * expires (string) – The Auth Token expiration date/time
   * token - id (string) – Auth Token
   * user - id (string) – Unique user ID
   * name (string) – Username
-4. Status Code
-  * 200 OK - Request completed successfullyi
 
-###### Response
+###### Status Code
+1. 200 OK - Request completed successfullyi
+
+###### Request
+
 ```
 POST /tokens HTTP/1.1
 Accept: application/json
@@ -101,7 +108,7 @@ Host: 192.168.13.37:8081
 
  
 ```
-###### Request
+###### Response
 ```
 HTTP/1.0 200 OK
 Date: Tue, 07 Jul 2015 15:34:01 GMT
@@ -125,7 +132,7 @@ Content-Type: text/html; charset=UTF-8
 }
 ```
 
-##### GET /user/<USER_ID>
+##### GET /user/USER_ID
 Retrieve the user's entry in the user database
 
 ###### Request Headers
