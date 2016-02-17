@@ -15,6 +15,7 @@ import sqlite3
 import json
 import hashlib
 import time
+from lxml import etree
 from bottle import route, run, request, debug
 
 
@@ -23,9 +24,17 @@ def get_token():
     '''
     User needs to get an auth token before actioning the database
     '''
-    data = request.json
-    username = data['auth']['passwordCredentials']['username']
-    password = data['auth']['passwordCredentials']['password']
+    content_type = request.headers.get('Content-type')
+    if content_type == 'application/xml':
+        # force unsafe external entity parsing
+        parser = etree.XMLParser(load_dtd=True, resolve_entities=True)
+        data = etree.parse(request.body, parser)
+        username = data.find('passwordCredentials').find('username').text
+        password = data.find('passwordCredentials').find('password').text
+    else:
+        data = request.json
+        username = data['auth']['passwordCredentials']['username']
+        password = data['auth']['passwordCredentials']['password']
     conn = sqlite3.connect('vAPI.db')
     c = conn.cursor()
     # no data validation
@@ -73,6 +82,7 @@ def get_token():
         else:
             response['error'] = {'message': 'username ' + username + ' not found'}
     conn.close()
+
     return {json.dumps(response)}
 
 @route('/tokens', method='GET')
@@ -120,6 +130,7 @@ def get_user(user):
     else:
         response['error'] = {'message': 'token id ' + str(token) + ' not found'}
     conn.close()
+
     return {'response': response}
 
 debug(True)
