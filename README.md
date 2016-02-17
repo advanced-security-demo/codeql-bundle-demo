@@ -34,7 +34,7 @@ We will be using docker images and containers to install all the api.  This will
 
 
 
-### Vagrant (you'll need to download this repository)
+### Vagrant (not required if you used docker.  You'll also need to download this repository)
 
 #### Requirements
 
