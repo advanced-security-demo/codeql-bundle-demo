@@ -28,9 +28,9 @@ We will be using docker images and containers to install all the api.  This will
 
 ### Linux
 
-* Install docker engine and docker client
+* Install docker engine and docker client [on docker website](https://docs.docker.com/engine/installation/linux/ubuntulinux/)
 * Run `docker run -tid -p 8081:8081 --name api mkam/vulnerable-api-demo`
-* You can now test your api
+* You can now test your api `curl localhost:8081 -v`
 
 
 
