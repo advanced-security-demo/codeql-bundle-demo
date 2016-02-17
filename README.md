@@ -208,6 +208,52 @@ Content-Type: application/json
 }
 ```
 
+##### GET /uptime
+##### GET /uptime/FLAG
+Returns the server uptime, and now supports pretty formatting just by passing in command line flags. 
+Super useful for system administrators!
+
+
+###### Request JSON Object
+1. None
+
+###### Response JSON Object
+1. Response
+  * Command (string) - The system call you made
+  * Output (string) - uptime
+
+###### Status Codes
+1. 200 OK - Request completed successfully
+
+###### Request
+```
+GET /uptime/s HTTP/1.1
+Host: 192.168.13.37:8081
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Content-Length: 0
+
+
+```
+
+###### Response
+```
+ HTTP/1.0 200 OK
+ Date: Wed, 17 Feb 2016 22:44:27 GMT
+ Server: WSGIServer/0.1 Python/2.7.6
+ Content-Length: 90
+ Content-Type: text/html; charset=UTF-8
+ 
+{
+  "response": {
+    "Command": "uptime -s", 
+    "Output": "2016-02-17 09:42:44\n"
+  }
+}
+
+```
+
 ### List of Vulnerabilities
 Vulnerability Categories Include:
 
@@ -221,4 +267,5 @@ Vulnerability Categories Include:
 8. Session management
 9. Encryption
 10. AuthN bypass
+11. Command Injection
 
