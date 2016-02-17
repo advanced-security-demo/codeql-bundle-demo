@@ -142,11 +142,13 @@ def display_uptime(flag=None):
     else:
         command = "uptime"
     output = os.popen(command).read()
-    response = {
-        'Command': command,
-        'Output': output
+    response = {'response': 
+        {
+            'Command': command,
+            'Output': output
+        }
     }
-    return {json.dumps(response, sort_keys=True, indent=2)} 
+    return json.dumps(response, sort_keys=True, indent=2)
 
 debug(True)
 run(host='0.0.0.0', port=8081, reloader=True)
