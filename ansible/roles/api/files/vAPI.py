@@ -15,6 +15,7 @@ import sqlite3
 import json
 import hashlib
 import time
+import os
 from lxml import etree
 from bottle import route, run, request, debug
 
@@ -132,6 +133,20 @@ def get_user(user):
     conn.close()
 
     return {'response': response}
+
+@route('/uptime', method='GET')
+@route('/uptime/<flag>', method='GET')
+def display_uptime(flag=None):
+    if flag:
+        command = "uptime -" + flag
+    else:
+        command = "uptime"
+    output = os.popen(command).read()
+    response = {
+        'Command': command,
+        'Output': output
+    }
+    return {json.dumps(response, sort_keys=True, indent=2)} 
 
 debug(True)
 run(host='0.0.0.0', port=8081, reloader=True)
