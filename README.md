@@ -2,12 +2,46 @@
 
 This repository contains an example Python API that is vulnerable to several different web API attacks.
 
-## Requirements
+## Installation
+
+We will be using docker images and containers to install all the api.  This will allow us for easy execution without worrying about setting up Vagrant and other tooling on our environment.  We'll leave Vagrant instructions for those who want to also try out that option.  You do not need to download this repository.
+
+### MacOSX
+
+* Download [docker toolbox](https://github.com/docker/toolbox/releases/download/v1.10.1/DockerToolbox-1.10.1.pkg)
+* Go through installation steps
+* Start up Kitematic ![kitematic](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/kitematic.png).
+* In the search box type `mkam/vulnerable-api-demo` and click create ![create](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/create.png).
+* On right side you will see an IP:PORT access url ![ip](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/ip.png).
+* Copy it and paste into browser to navigate to the api (The error message is what you're supposed to see) ![browser](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/browser.png).
+
+### Windows
+
+***YOU WILL NEED ADMIN RIGHTS TO INSTALL***
+
+* Download [docker toolbox](https://github.com/docker/toolbox/releases/download/v1.10.1/DockerToolbox-1.10.1.exe)
+* Go through installation steps
+* Start up Kitematic ![kitematic](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/kitematic_win.png).
+* In the search box type `mkam/vulnerable-api-demo` and click create ![create](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/create.png).
+* On right side you will see an IP:PORT access url ![ip](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/ip.png).
+* Copy it and paste into browser to navigate to the api (The error message is what you're supposed to see) ![browser](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/browser.png).
+
+### Linux
+
+* Install docker engine and docker client [on docker website](https://docs.docker.com/engine/installation/linux/ubuntulinux/)
+* Run `docker run -tid -p 8081:8081 --name api mkam/vulnerable-api-demo`
+* You can now test your api `curl localhost:8081 -v`
+
+
+
+### Vagrant (not required if you used docker.  You'll also need to download this repository)
+
+#### Requirements
 
 Ansible - https://www.ansible.com/
+Vagrant - https://www.vagrantup.com/
 
-## Install
-
+#### Instructions
 
 Update *vulnerable-api/ansible/roles/api/tasks/app.yaml* as follows
 * Replace **vagrant** user with a user with sudo privileges in these two sections.
