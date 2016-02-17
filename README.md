@@ -21,7 +21,7 @@ We will be using docker images and containers to install all the api.  This will
 
 * Download [docker toolbox](https://github.com/docker/toolbox/releases/download/v1.10.1/DockerToolbox-1.10.1.exe)
 * Go through installation steps
-* Start up Kitematic ![kitematic](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/kitematic.png).
+* Start up Kitematic ![kitematic](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/kitematic_win.png).
 * In the search box type `mkam/vulnerable-api-demo` and click create ![create](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/create.png).
 * On right side you will see an IP:PORT access url ![ip](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/ip.png).
 * Copy it and paste into browser to navigate to the api ![browser](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/browser.png).
