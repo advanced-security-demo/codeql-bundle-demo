@@ -74,7 +74,7 @@ Request an Auth Token for a user
 
 ###### Request Headers
 1. Accept: application/json
-2. Content-Type: application/json
+2. Content-Type: application/json or application/xml
 
 ###### Request JSON Object
 1. username (string) - Name of user requesting token
@@ -105,6 +105,26 @@ Host: 192.168.13.37:8081
           "password":"PASSWORD"}
     }
 }
+
+ 
+```
+
+or
+
+```
+POST /tokens HTTP/1.1
+Accept: */*
+Content-Length: 170
+Content-Type: application/xml
+Host: 192.168.13.37:8081
+
+<?xml version="1.0" encoding="UTF-8"?>
+<auth>
+    <passwordCredentials>
+        <username>user1</username>
+        <password>pass1</password>
+    </passwordCredentials>
+</auth>
 
  
 ```
