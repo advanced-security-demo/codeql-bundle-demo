@@ -15,6 +15,12 @@ We will be using docker images and containers to install all the api.  This will
 * On right side you will see an IP:PORT access url ![ip](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/ip.png).
 * Copy it and paste into browser to navigate to the api (The error message is what you're supposed to see) ![browser](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/browser.png).
 
+#### Install Burp Proxy
+
+* Install java 8 [from oracle website](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+* Download jar file from [burp website](https://portswigger.net/burp/downloadfree.html)
+* Run java -jar burpsuite_free_v1.6.32.jar
+
 ### Windows
 
 ***YOU WILL NEED ADMIN RIGHTS TO INSTALL***
@@ -26,11 +32,23 @@ We will be using docker images and containers to install all the api.  This will
 * On right side you will see an IP:PORT access url ![ip](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/ip.png).
 * Copy it and paste into browser to navigate to the api (The error message is what you're supposed to see) ![browser](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/browser.png).
 
+#### Install Burp Proxy
+
+* Install java 8 [from oracle website](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+* Download jar file from [burp website](https://portswigger.net/burp/downloadfree.html)
+* Run java -jar burpsuite_free_v1.6.32.jar
+
 ### Linux
 
 * Install docker engine and docker client [on docker website](https://docs.docker.com/engine/installation/linux/ubuntulinux/)
 * Run `docker run -tid -p 8081:8081 --name api mkam/vulnerable-api-demo`
 * You can now test your api `curl localhost:8081 -v`
+
+#### Install Burp Proxy
+
+* Install java 8 [from oracle website](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+* Download jar file from [burp website](https://portswigger.net/burp/downloadfree.html)
+* Run java -jar burpsuite_free_v1.6.32.jar
 
 
 
@@ -108,7 +126,7 @@ Request an Auth Token for a user
 
 ###### Request Headers
 1. Accept: application/json
-2. Content-Type: application/json
+2. Content-Type: application/json or application/xml
 
 ###### Request JSON Object
 1. username (string) - Name of user requesting token
@@ -139,6 +157,26 @@ Host: 192.168.13.37:8081
           "password":"PASSWORD"}
     }
 }
+
+ 
+```
+
+or
+
+```
+POST /tokens HTTP/1.1
+Accept: */*
+Content-Length: 170
+Content-Type: application/xml
+Host: 192.168.13.37:8081
+
+<?xml version="1.0" encoding="UTF-8"?>
+<auth>
+    <passwordCredentials>
+        <username>user1</username>
+        <password>pass1</password>
+    </passwordCredentials>
+</auth>
 
  
 ```
@@ -222,6 +260,52 @@ Content-Type: application/json
 }
 ```
 
+##### GET /uptime
+##### GET /uptime/FLAG
+Returns the server uptime, and now supports pretty formatting just by passing in command line flags. 
+Super useful for system administrators!
+
+
+###### Request JSON Object
+1. None
+
+###### Response JSON Object
+1. Response
+  * Command (string) - The system call you made
+  * Output (string) - uptime
+
+###### Status Codes
+1. 200 OK - Request completed successfully
+
+###### Request
+```
+GET /uptime/s HTTP/1.1
+Host: 192.168.13.37:8081
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Content-Length: 0
+
+
+```
+
+###### Response
+```
+ HTTP/1.0 200 OK
+ Date: Wed, 17 Feb 2016 22:44:27 GMT
+ Server: WSGIServer/0.1 Python/2.7.6
+ Content-Length: 90
+ Content-Type: text/html; charset=UTF-8
+ 
+{
+  "response": {
+    "Command": "uptime -s", 
+    "Output": "2016-02-17 09:42:44\n"
+  }
+}
+
+```
+
 ### List of Vulnerabilities
 Vulnerability Categories Include:
 
@@ -235,4 +319,5 @@ Vulnerability Categories Include:
 8. Session management
 9. Encryption
 10. AuthN bypass
+11. Command Injection
 
