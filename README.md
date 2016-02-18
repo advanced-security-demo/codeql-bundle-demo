@@ -15,6 +15,12 @@ We will be using docker images and containers to install all the api.  This will
 * On right side you will see an IP:PORT access url ![ip](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/ip.png).
 * Copy it and paste into browser to navigate to the api (The error message is what you're supposed to see) ![browser](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/browser.png).
 
+#### Install Burp Proxy
+
+* Install java 8 [from oracle website](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+* Download jar file from [burp website](https://portswigger.net/burp/downloadfree.html)
+* Run java -jar burpsuite_free_v1.6.32.jar
+
 ### Windows
 
 ***YOU WILL NEED ADMIN RIGHTS TO INSTALL***
@@ -26,11 +32,23 @@ We will be using docker images and containers to install all the api.  This will
 * On right side you will see an IP:PORT access url ![ip](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/ip.png).
 * Copy it and paste into browser to navigate to the api (The error message is what you're supposed to see) ![browser](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/browser.png).
 
+#### Install Burp Proxy
+
+* Install java 8 [from oracle website](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+* Download jar file from [burp website](https://portswigger.net/burp/downloadfree.html)
+* Run java -jar burpsuite_free_v1.6.32.jar
+
 ### Linux
 
 * Install docker engine and docker client [on docker website](https://docs.docker.com/engine/installation/linux/ubuntulinux/)
 * Run `docker run -tid -p 8081:8081 --name api mkam/vulnerable-api-demo`
 * You can now test your api `curl localhost:8081 -v`
+
+#### Install Burp Proxy
+
+* Install java 8 [from oracle website](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+* Download jar file from [burp website](https://portswigger.net/burp/downloadfree.html)
+* Run java -jar burpsuite_free_v1.6.32.jar
 
 
 
