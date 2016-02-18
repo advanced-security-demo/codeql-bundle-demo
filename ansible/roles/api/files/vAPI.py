@@ -1,6 +1,6 @@
 """
 This API interacts with a user and token database.
-The code is written to exemplify common API security vulnerabilities 
+The code is written to exemplify common API security vulnerabilities
 1. No input validation
 2. SQL queries are not parameterized
 3. No real error handling
@@ -16,6 +16,7 @@ import json
 import hashlib
 import time
 import os
+import re
 from lxml import etree
 from bottle import route, run, request, debug
 
@@ -47,7 +48,7 @@ def get_token():
     if user:
         response['access'] = {}
         response['access']['user'] = {'id': user[0], 'name': user[1]}
-        # make sure to get most recent token in database, because we arent removing them... 
+        # make sure to get most recent token in database, because we arent removing them...
         token_query = "SELECT * FROM tokens WHERE userid = '%s' ORDER BY expires DESC" % (user[0])
         c.execute(token_query)
         token_record = c.fetchone()
@@ -62,7 +63,7 @@ def get_token():
                 conn.commit()
                 response['access']['token'] = {'id': token, 'expires': expire_date}
             else:
-                # recent token hasn't expired. use same one. 
+                # recent token hasn't expired. use same one.
                 expire_date = time.ctime(int(token_record[3]))
                 response['access']['token'] = {'id': token_record[1], 'expires': expire_date}
         else:
@@ -134,6 +135,41 @@ def get_user(user):
 
     return {'response': response}
 
+@route('/user', method='POST')
+def create_user():
+    token = request.headers.get('X-Auth-Token')
+    conn = sqlite3.connect('vAPI.db')
+    c = conn.cursor()
+    token_query = "SELECT * FROM tokens WHERE token = '%s' AND userid = 10" % (str(token))
+    c.execute(token_query)
+    token_record = c.fetchone()
+    response = {}
+    if type(token_record) == tuple:
+        data = request.json
+        name = data['user']['username']
+        password = data['user']['password']
+        # catastrophically bad regex
+        match = "([a-z]+)*[0-9]"
+        m = re.search(match, name)
+        if m:
+            user_query = "SELECT * FROM users WHERE username = '%s'" % (name)
+            c.execute(user_query)
+            user_record = c.fetchone()
+            if type(user_record) == tuple:
+                response['error'] = {"message": "User %s already exists!" % name}
+            else:
+                c.execute("INSERT INTO users (username, password) VALUES (?, ?)",  (name, password))
+                conn.commit()
+                response['user'] = {"username": name, "password": password}
+        else:
+            response['error'] = {"message": "username invalid format, check documentation!"}
+    else:
+        response['error'] = {"message": "must provide valid admin token"}
+
+    c.close()
+    return{'response': response}
+
+
 @route('/uptime', method='GET')
 @route('/uptime/<flag>', method='GET')
 def display_uptime(flag=None):
@@ -142,7 +178,7 @@ def display_uptime(flag=None):
     else:
         command = "uptime"
     output = os.popen(command).read()
-    response = {'response': 
+    response = {'response':
         {
             'Command': command,
             'Output': output
