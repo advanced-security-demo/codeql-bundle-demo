@@ -17,7 +17,7 @@ We will be using docker images and containers to install all the api.  This will
 
 #### Install Burp Proxy
 
-* Install java 8 [from oracle website](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+* Install java [from oracle website](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) if you don't have it already
 * Download jar file from [burp website](https://portswigger.net/burp/downloadfree.html)
 * Run java -jar burpsuite_free_v1.6.32.jar
 
@@ -34,7 +34,7 @@ We will be using docker images and containers to install all the api.  This will
 
 #### Install Burp Proxy
 
-* Install java 8 [from oracle website](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+* Install java [from oracle website](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) if you don't have it already
 * Download jar file from [burp website](https://portswigger.net/burp/downloadfree.html)
 * Run java -jar burpsuite_free_v1.6.32.jar
 
@@ -46,7 +46,7 @@ We will be using docker images and containers to install all the api.  This will
 
 #### Install Burp Proxy
 
-* Install java 8 [from oracle website](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+* Install java [from oracle website](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) if you don't have it already
 * Download jar file from [burp website](https://portswigger.net/burp/downloadfree.html)
 * Run java -jar burpsuite_free_v1.6.32.jar
 
