@@ -13,7 +13,7 @@ We will be using docker images and containers to install all the api.
 * Start up Kitematic ![kitematic](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/kitematic.png).
 * In the search box type `mkam/vulnerable-api-demo` and click create ![create](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/create.png).
 * On right side you will see an IP:PORT access url ![ip](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/ip.png).
-* Copy it and paste into browser to navigate to the api (The error message is what you're supposed to see) ![browser](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/browser.png).
+* Copy it and paste into browser to navigate to the api ![browser](browser.png).
 
 #### Install Burp Proxy
 
