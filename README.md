@@ -4,7 +4,7 @@ This repository contains an example Python API that is vulnerable to several dif
 
 ## Installation
 
-We will be using docker images and containers to install all the api.  This will allow us for easy execution without worrying about setting up Vagrant and other tooling on our environment.  We'll leave Vagrant instructions for those who want to also try out that option.  You do not need to download this repository.
+We will be using docker images and containers to install all the api. 
 
 ### MacOSX
 
@@ -50,38 +50,6 @@ We will be using docker images and containers to install all the api.  This will
 * Download jar file from [burp website](https://portswigger.net/burp/downloadfree.html)
 * Run java -jar burpsuite_free_v1.6.32.jar
 
-
-
-### Vagrant (not required if you used docker.  You'll also need to download this repository)
-
-#### Requirements
-
-Ansible - https://www.ansible.com/
-Vagrant - https://www.vagrantup.com/
-
-#### Instructions
-
-Update *vulnerable-api/ansible/roles/api/tasks/app.yaml* as follows
-* Replace **vagrant** user with a user with sudo privileges in these two sections.
-
-```
-- name: Stop supervisord
-  shell: killall supervisord
-  args:
-    sudo: yes
-    sudo_user: vagrant
-
-- name: Start supervisord
-  shell: supervisord -c /etc/supervisor/supervisord.conf
-  args:  
-    sudo: yes
-    sudo_user: vagrant
-```
-
-Run ansible-playbook
-```
-ansible-playbook -i "localhost," -c local vulnerable-api/ansible/main.yml
-```
 
 ## API Details
 
