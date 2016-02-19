@@ -21,6 +21,19 @@ from lxml import etree
 from bottle import route, run, request, debug
 
 
+@route('/', method='GET')
+def get_root():
+    '''
+    Give default message for a GET on root directory.
+    '''
+    response = {'response':
+        {
+            'Application': 'vulnerable-api',
+            'Status': 'running'
+        }
+    }
+    return json.dumps(response, sort_keys=True, indent=2)
+
 @route('/tokens', method='POST')
 def get_token():
     '''
