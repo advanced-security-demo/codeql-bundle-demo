@@ -259,6 +259,69 @@ Content-Type: application/json
         }
 }
 ```
+##### POST /user
+Creates an user with the given username and password.
+2 Conditions:
+  1. User cannot already exist
+  2. Username has to meet strict naming guidlines. The username must be matched by this regular expression: ([a-z]+)*[0-9], which means that usernames that look like "user1" or "abc123" will be accepted, but usernames that look like "USER1" or "1user" will note be accepted.
+
+###### Request Headers
+1. X-Auth-Token - Valid token for the admin user
+
+###### Request JSON Object
+1. User 
+  * name (string) – Username that matches above conditions
+  * password (string) – Password
+
+###### Response JSON Object
+1. response
+  * user
+    - username - the name of the succesfully created user
+    - password - the password of the successfully created user
+
+###### Status Code
+1. 200 OK - Request completed successfullyi
+
+###### Request
+
+```
+POST /user HTTP/1.1
+User-Agent: curl/7.35.0
+Host: 127.0.0.1:8081
+Accept: */*
+x-auth-token: ADMIN TOKEN
+Content-type: application/json
+Content-Length: 54
+
+{"user":
+	{"username": "USERNAME",
+	"password": "PASSWORD"}
+}
+
+
+```
+
+###### Response
+```
+HTTP/1.0 200 OK
+Date: Mon, 06 Jul 2015 22:08:56 GMT
+Server: WSGIServer/0.1 Python/2.7.9
+Content-Length: 68
+Content-Type: application/json
+ 
+{
+    "response":
+        {
+            "user":
+                {
+                    "password": "PASSWORD",
+                    "name": "USER_NAME"
+                }
+        }
+}
+
+
+```
 
 ##### GET /uptime
 ##### GET /uptime/FLAG
@@ -320,4 +383,5 @@ Vulnerability Categories Include:
 9. Encryption
 10. AuthN bypass
 11. Command Injection
+12. Regex DDoS
 
