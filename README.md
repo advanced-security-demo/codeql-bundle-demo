@@ -231,7 +231,7 @@ Content-Type: application/json
 Creates an user with the given username and password.
 2 Conditions:
   1. User cannot already exist
-  2. Username has to meet strict naming guidlines. The username must be matched by this regular expression: ([a-z]+)*[0-9], which means that usernames that look like "user1" or "abc123" will be accepted, but usernames that look like "USER1" or "1user" will note be accepted.
+  2. Username has to meet strict naming guidlines. The username must be matched by this regular expression: ```([a-z]+)*[0-9]```. This means that a username has to start with a lowercase letter and end with numbers. So, usernames that look like "user1" or "abc123" will be accepted, but usernames that look like "USER1" or "1user" will not be accepted.
 
 ###### Request Headers
 1. X-Auth-Token - Valid token for the admin user
