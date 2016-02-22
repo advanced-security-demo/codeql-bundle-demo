@@ -17,6 +17,7 @@ import hashlib
 import time
 import os
 import re
+import xml.etree.ElementTree as ET
 from lxml import etree
 from bottle import route, run, request, debug
 
@@ -41,6 +42,13 @@ def get_token():
     '''
     content_type = request.headers.get('Content-type')
     if content_type == 'application/xml':
+        try:
+            # LXML is vulnerable to XXE, etree is vulnerable to Billion Laughs
+            # So just have etree try to parse it just to watch it die
+            ET.parse(request.body)
+        except Exception:
+            # But etree will throw an exception for XXE, so ignore that
+            pass
         # force unsafe external entity parsing
         parser = etree.XMLParser(load_dtd=True, resolve_entities=True)
         data = etree.parse(request.body, parser)
