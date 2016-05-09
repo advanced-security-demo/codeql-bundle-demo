@@ -8,35 +8,25 @@ We will be using docker images and containers to install all the api.
 
 ### MacOSX
 
-* Download [docker toolbox](https://github.com/docker/toolbox/releases/download/v1.10.1/DockerToolbox-1.10.1.pkg)
+* Download the latest version of [docker toolbox](https://www.docker.com/products/docker-toolbox)
 * Go through installation steps
-* Start up Kitematic ![kitematic](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/kitematic.png).
-* In the search box type `mkam/vulnerable-api-demo` and click create ![create](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/create.png).
-* On right side you will see an IP:PORT access url ![ip](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/ip.png).
+* Start up Kitematic ![kitematic](kitematic.png).
+* In the search box type `mkam/vulnerable-api-demo` and click create ![create](create.png).
+* On right side you will see an IP:PORT access url ![ip](ip.png).
 * Copy it and paste into browser to navigate to the api ![browser](browser.png).
-
-#### Install Burp Proxy
-
-* Install java [from oracle website](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) if you don't have it already
-* Download jar file from [burp website](https://portswigger.net/burp/downloadfree.html)
-* Run java -jar burpsuite_free_v1.6.32.jar
+* Jump to [Install Burp Proxy](#install-burp-proxy)
 
 ### Windows
 
 ***YOU WILL NEED ADMIN RIGHTS TO INSTALL***
 
-* Download [docker toolbox](https://github.com/docker/toolbox/releases/download/v1.10.1/DockerToolbox-1.10.1.exe)
+* Download the latest version of [docker toolbox](https://www.docker.com/products/docker-toolbox)
 * Go through installation steps
-* Start up Kitematic ![kitematic](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/kitematic_win.png).
-* In the search box type `mkam/vulnerable-api-demo` and click create ![create](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/create.png).
-* On right side you will see an IP:PORT access url ![ip](https://raw.githubusercontent.com/dimtruck/vulnerable-api/master/ip.png).
+* Start up Kitematic ![kitematic](kitematic_win.png).
+* In the search box type `mkam/vulnerable-api-demo` and click create ![create](create.png).
+* On right side you will see an IP:PORT access url ![ip](ip.png).
 * Copy it and paste into browser to navigate to the api ![browser](browser.png).
-
-#### Install Burp Proxy
-
-* Install java [from oracle website](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) if you don't have it already
-* Download jar file from [burp website](https://portswigger.net/burp/downloadfree.html)
-* Run java -jar burpsuite_free_v1.6.32.jar
+* Jump to [Install Burp Proxy](#install-burp-proxy)
 
 ### Linux
 
