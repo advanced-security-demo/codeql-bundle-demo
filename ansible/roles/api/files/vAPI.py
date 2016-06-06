@@ -183,7 +183,7 @@ def create_user():
                 conn.commit()
                 response['user'] = {"username": name, "password": password}
         else:
-            response['error'] = {"message": "username invalid format, check documentation!"}
+            response['error'] = {"message": "username {0} invalid format, check documentation!".format(name)}
     else:
         response['error'] = {"message": "must provide valid admin token"}
 
