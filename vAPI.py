@@ -1,5 +1,5 @@
 """
-This API interacts with a user and token database.
+s API interacts with a user and token database.
 The code is written to exemplify common API security vulnerabilities
 1. No input validation
 2. SQL queries are not parameterized
@@ -18,23 +18,37 @@ import time
 import os
 import re
 import xml.etree.ElementTree as ET
+import logging
 from lxml import etree
 from bottle import route, run, request, debug
 from bottle import hook
+from bottle import abort
 from bottle import response as resp
+from paste import httpserver
 
+logging.basicConfig(filename="vAPI.log",
+                            filemode='a',
+                            format='%(asctime)s.%(msecs)03d %(levelname)s %(message)s',
+                            datefmt='%Y-%m-%dT%H:%M:%S',
+                            level=logging.INFO)
+
+logging.info("Starting vAPI")
+
+logger = logging.getLogger('vAPI')
 
 @route('/', method='GET')
 def get_root():
     '''
     Give default message for a GET on root directory.
     '''
+    src_ip=request.environ.get('HTTP_X_FORWARDED_FOR') or request.environ.get('REMOTE_ADDR')
     response = {'response':
                 {
-                    'Application': 'vulnerable-api',
-                    'Status': 'running'
+                    'application': 'vAPI',
+                    'status': 'running'
                 }
                 }
+    logging.info("app=vAPI: src_ip=%s action=success signature=\"API status request\"" % src_ip)
     return json.dumps(response, sort_keys=True, indent=2)
 
 
@@ -43,6 +57,7 @@ def get_token():
     '''
     User needs to get an auth token before actioning the database
     '''
+    src_ip=request.environ.get('HTTP_X_FORWARDED_FOR') or request.environ.get('REMOTE_ADDR')
     content_type = request.headers.get('Content-type')
     if content_type == 'application/xml':
         try:
@@ -58,9 +73,12 @@ def get_token():
         username = data.find('passwordCredentials').find('username').text
         password = data.find('passwordCredentials').find('password').text
     else:
-        data = request.json
-        username = data['auth']['passwordCredentials']['username']
-        password = data['auth']['passwordCredentials']['password']
+        try:
+            data = request.json if request.json!=None else {}
+        except ValueError, e:
+            abort(400, "Bad request")
+        username = data.get('auth',{}).get('passwordCredentials',{}).get('username',"")
+        password = data.get('auth',{}).get('passwordCredentials',{}).get('password',"")
     conn = sqlite3.connect('vAPI.db')
     c = conn.cursor()
     # no data validation
@@ -96,11 +114,13 @@ def get_token():
                 conn.commit()
                 response['access']['token'] = {
                     'id': token, 'expires': expire_date}
+                logging.info("app=vAPI:tokens src_ip=%s user=%s action=success signature=\"Request token: authentication succeeded, found expired token in db\"" % (src_ip, username))
             else:
                 # recent token hasn't expired. use same one.
                 expire_date = time.ctime(int(token_record[3]))
                 response['access']['token'] = {
                     'id': token_record[1], 'expires': expire_date}
+                logging.info("app=vAPI:tokens src_ip=%s user=%s action=success signature=\"Request token: authentication succeeded, found recent token in db\"" % (src_ip, username))
         else:
             # no token exists. create one that expires in 5 minutes
             expire_stamp = int(time.time() + 300)
@@ -115,6 +135,7 @@ def get_token():
                     expire_stamp))
             conn.commit()
             response['access']['token'] = {'id': token, 'expires': expire_date}
+            logging.info("app=vAPI:tokens src_ip=%s user=%s action=success signature=\"Request token: authentication succeeded, created new token in db\"" % (src_ip, username))
     else:
         # let's do another look up so we can return helpful info for failure
         # cases
@@ -122,9 +143,12 @@ def get_token():
         user = c.fetchone()
         if user:
             response['error'] = {'message': 'password does not match'}
+            logging.info("app=vAPI:tokens src_ip=%s user=%s action=failure signature=\"Request token: authentication failed, wrong password\"" % (src_ip, username))
         else:
+            logging.info("app=vAPI:tokens src_ip=%s user=%s action=failure signature=\"Request token: authentication failed, user unknown\"" % (src_ip, username))
             response['error'] = {
                 'message': 'username ' + username + ' not found'}
+    c.close()
     conn.close()
 
     return {json.dumps(response)}
@@ -136,11 +160,14 @@ def get_get_token():
     this is an undocumented request. EASTER EGG
     /tokens is only supposed to accept a POST! Are you checking the other verbs?
     '''
+    src_ip=request.environ.get('HTTP_X_FORWARDED_FOR') or request.environ.get('REMOTE_ADDR')
     conn = sqlite3.connect('vAPI.db')
     c = conn.cursor()
     query = "SELECT * FROM users"
     c.execute(query)
     users = c.fetchall()
+    c.close()
+    conn.close()
     return {'response': users}
 
 
@@ -150,6 +177,7 @@ def get_user(user):
     Expects a user id to return that user's data.
     X-Auth-Token is also expected
     '''
+    src_ip=request.environ.get('HTTP_X_FORWARDED_FOR') or request.environ.get('REMOTE_ADDR')
     token = request.headers.get('X-Auth-Token')
     conn = sqlite3.connect('vAPI.db')
     c = conn.cursor()
@@ -169,14 +197,18 @@ def get_user(user):
                 response['user']['id'] = user_record[0]
                 response['user']['name'] = user_record[1]
                 response['user']['password'] = user_record[2]
+                logging.info("app=vAPI:user src_ip=%s user=%s action=success signature=\"Requesting user record: success for user record %s\"" % (src_ip, token_record.get(2,""), user))
             else:
                 response['error'] = {
                     'message': 'the token and user do not match!'}
+                logging.info("app=vAPI:user src_ip=%s user=%s action=failure signature=\"Requesting user record: no permission to show user=%s\"" % (src_ip, token_record.get(2,""), user))
         else:
             response['error'] = {'message': 'user id ' + user + ' not found'}
+            logging.info("app=vAPI:user src_ip=%s user=%s action=failure signature=\"Requesting user record: failed for unknown user %s\"" % (src_ip, token_record(2,""), user))
     else:
         response['error'] = {
             'message': 'token id ' + str(token) + ' not found'}
+        logging.info("app=vAPI:user src_ip=%s user=%s action=failure \"Requesting user record: authentication failed for user %s\"" % (src_ip, "" , user))
     conn.close()
 
     return {'response': response}
@@ -184,6 +216,7 @@ def get_user(user):
 
 @route('/user', method='POST')
 def create_user():
+    src_ip=request.environ.get('HTTP_X_FORWARDED_FOR') or request.environ.get('REMOTE_ADDR')
     token = request.headers.get('X-Auth-Token')
     conn = sqlite3.connect('vAPI.db')
     c = conn.cursor()
@@ -193,7 +226,10 @@ def create_user():
     token_record = c.fetchone()
     response = {}
     if isinstance(token_record, tuple):
-        data = request.json
+        try:
+            data = request.json if request.json!=None else {}
+        except ValueError, e:
+            abort(400, "Bad request")
         name = data['user']['username']
         password = data['user']['password']
         # catastrophically bad regex
@@ -207,37 +243,77 @@ def create_user():
                 response['error'] = {
                     "message": "User %s already exists!" %
                     name}
+                logging.info("app=vAPI:user src_ip=%s user=%s action=failure signature=\"Create new user: already existing user %s\"" % (src_ip, token_record[2], name))
             else:
                 c.execute(
                     "INSERT INTO users (username, password) VALUES (?, ?)", (name, password))
                 conn.commit()
                 response['user'] = {"username": name, "password": password}
+                logging.info("app=vAPI:user src_ip=%s user=%s action=success signature=\"Create new user: %s\"" % (src_ip, token_record[2], name))
         else:
             response['error'] = {
                 "message": "username {0} invalid format, check documentation!".format(name)}
+            logging.info("app=vAPI:user src_ip=%s user=%s action=failure signature=\"Create new user: invalid name %s\"" % (src_ip, token_record[2], name))
     else:
         response['error'] = {"message": "must provide valid admin token"}
+        logging.info("app=vAPI:user src_ip=%s action=failure signature=\"Create new user: authentication failed, invalid token\"" % src_ip)
 
     c.close()
+    conn.close()
     return{'response': response}
 
 
 @route('/uptime', method='GET')
 @route('/uptime/<flag>', method='GET')
 def display_uptime(flag=None):
+    src_ip=request.environ.get('HTTP_X_FORWARDED_FOR') or request.environ.get('REMOTE_ADDR')
     if flag:
         command = "uptime -" + flag
+        logging.info("app=vAPI:uptime src_ip=%s action=success signature=\"Uptime request: flag=%s\"" % (src_ip, flag))
     else:
-        command = "uptime"
-    output = os.popen(command).read()
+        command = "uptime" 
+        logging.info("app=vAPI:uptime src_ip=%s action=success signature=\"Uptime request\"" % src_ip) 
+    output = os.popen(command).read() 
     response = {'response':
-                {
-                    'Command': command,
-                    'Output': output
-                }
-                }
+        {
+              'Command': command,
+              'Output': output
+        }}
     return json.dumps(response, sort_keys=True, indent=2)
 
+@route('/widget', method='POST')
+def create_widget_reservation():
+    src_ip=request.environ.get('HTTP_X_FORWARDED_FOR') or request.environ.get('REMOTE_ADDR')
+    token = request.headers.get('X-Auth-Token')
+    conn = sqlite3.connect('vAPI.db')
+    c = conn.cursor()
+    token_query = "SELECT * FROM tokens WHERE token = '%s'" % (
+        str(token))
+    c.execute(token_query)
+    token_record = c.fetchone()
+    response = {}
+    try:
+        data = request.json if request.json!=None else {}
+    except ValueError, e:
+        abort(400, "Bad request")
+    name = data.get('widget', {}).get('name',{})
+    if isinstance(token_record, tuple):
+        # catastrophically bad regex
+        match = "([a-z]+)*[0-9]"
+        m = re.search(match, str(name))
+        if m:
+            response = {"message": "created reservation for widget %s" % name}
+            logging.info("app=vAPI:widget src_ip=%s user=%s action=success signature=\"Create reservation: widget=%s\"" % (src_ip, token_record[2], name))
+        else:
+            response['error'] = {"message": "illegal widget name"}
+            logging.info("app=vAPI:widget src_ip=%s user=%s action=failure signature=\"Create reservation: illegal name widget=%s\"" % (src_ip, token_record[2], name))
+    else:
+        response['error'] = {"message": "must provide valid token"}
+        logging.info("app=vAPI:widget src_ip=%s action=failure signature=\"Create reservation: authentication failure widget=%s\"" % (src_ip, name))
+
+    c.close()
+    conn.close()
+    return{'response': response}
 
 @hook('after_request')
 def enable_cors():
@@ -250,4 +326,4 @@ def enable_cors():
     resp.headers['Access-Control-Allow-Headers'] = '*'
 
 debug(True)
-run(host='0.0.0.0', port=8081, reloader=True)
+run(server='paste', host='0.0.0.0', port=8081, reloader=True)
