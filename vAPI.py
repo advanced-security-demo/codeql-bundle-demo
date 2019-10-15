@@ -19,6 +19,8 @@ import os
 import re
 import xml.etree.ElementTree as ET
 import logging
+import sys
+import getopt
 from lxml import etree
 from bottle import route, run, request, debug
 from bottle import hook
@@ -326,4 +328,16 @@ def enable_cors():
     resp.headers['Access-Control-Allow-Headers'] = '*'
 
 debug(True)
-run(server='paste', host='0.0.0.0', port=8081, reloader=True)
+try:
+    opts,args = getopt.getopt(sys.argv[1:],"hp:")
+except getopt.GetoptError:
+    print "vAPI.py -p <port>"
+    sys.exit(2)
+myport=8081
+for opt, arg in opts:
+    if opt == "-h":
+        print "vAPI.py -p <port>"
+        sys.exit(0)
+    elif opt == "-p":
+        myport = arg
+run(server='paste', host='0.0.0.0', port=myport, reloader=True)
