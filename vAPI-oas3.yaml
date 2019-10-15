@@ -1,0 +1,188 @@
+openapi: 3.0.1
+info:
+  title: defaultTitle
+  description: defaultDescription
+  version: '0.1'
+servers:
+  - url: 'http://34.254.222.59:8081'
+paths:
+  /:
+    get:
+      description: Return OAS spec
+      responses:
+        '200':
+          description: Auto generated using Swagger Inspector
+          content:
+            text/html; charset=UTF-8:
+              schema:
+                type: string
+              examples: {}
+      servers:
+        - url: 'http://34.254.222.59:8081'
+    servers:
+      - url: 'http://34.254.222.59:8081'
+  /tokens:
+    post:
+      description: Authenticate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                auth:
+                  type: object
+                  properties:
+                    passwordCredentials:
+                      type: object
+                      properties:
+                        password:
+                          type: string
+                        username:
+                          type: string
+            examples:
+              '0':
+                value: |-
+                  {"auth":
+                      {"passwordCredentials":
+                          {"username": "USER_NAME",
+                            "password":"PASSWORD"}
+                      }
+                  }
+      responses:
+        '200':
+          description: Auto generated using Swagger Inspector
+          content:
+            text/html; charset=UTF-8:
+              schema:
+                type: string
+              examples: {}
+      servers:
+        - url: 'http://34.254.222.59:8081'
+    servers:
+      - url: 'http://34.254.222.59:8081'
+  /user/{user}:
+    get:
+      parameters:
+        - in: path
+          name: user
+          required: true
+          schema: 
+            type: string
+          description: User account
+        - name: X-Auth-Token
+          in: header
+          schema:
+            type: string
+          example: THISISATOKEN
+      responses:
+        '200':
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: object
+                    properties:
+                      error:
+                        type: object
+                        properties:
+                          message:
+                            type: string
+              examples:
+                '0':
+                  value: >-
+                    {"response": {"error": {"message": "token id THISISATOKEN
+                    not found"}}}
+      servers:
+        - url: 'http://34.254.222.59:8081'
+    servers:
+      - url: 'http://34.254.222.59:8081'
+  /user:
+    post:
+      description: Auto generated using Swagger Inspector
+      parameters:
+        - name: X-Auth-Token
+          in: header
+          schema:
+            type: string
+          example: THISISATOKEN
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    password:
+                      type: string
+                    username:
+                      type: string
+            examples:
+              '0':
+                value: "{\"user\":\n\t{\"username\": \"USERNAME\",\n\t\"password\": \"PASSWORD\"}\n}"
+      responses:
+        '200':
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: object
+                    properties:
+                      error:
+                        type: object
+                        properties:
+                          message:
+                            type: string
+              examples:
+                '0':
+                  value: >-
+                    {"response": {"error": {"message": "must provide valid admin
+                    token"}}}
+      servers:
+        - url: 'http://34.254.222.59:8081'
+    servers:
+      - url: 'http://34.254.222.59:8081'
+  /uptime:
+    get:
+      description: Auto generated using Swagger Inspector
+      responses:
+        '200':
+          description: Auto generated using Swagger Inspector
+          content:
+            text/html; charset=UTF-8:
+              schema:
+                type: string
+              examples: {}
+      servers:
+        - url: 'http://34.254.222.59:8081'
+    servers:
+      - url: 'http://34.254.222.59:8081'
+  /uptime/{flag}:
+    get:
+      parameters:
+        - in: path
+          name: flag
+          required: true
+          schema: 
+            type: string
+      description: Flag for uptime
+      responses:
+        '200':
+          description: Auto generated using Swagger Inspector
+          content:
+            text/html; charset=UTF-8:
+              schema:
+                type: string
+              examples: {}
+      servers:
+        - url: 'http://34.254.222.59:8081'
+    servers:
+      - url: 'http://34.254.222.59:8081'
