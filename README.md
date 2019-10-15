@@ -11,8 +11,12 @@ It is implemented using the Bottle Python Framework and consists of a user datab
 ## Usage
 
 1. git clone https://github.com/jorritfolmer/vulnerable-api.git
-2. python ./vAPI.py
-3. have fun on port 8081 with OWASP ZAP or Burp
+2. yum install python-lxml
+3. yum install python-paste
+4. yum install python-pip
+5. pip install bottle
+6. python ./vAPI.py -p \<port\>
+7. have fun with OWASP ZAP or Burp
 
 ## vAPI Process flow
 
