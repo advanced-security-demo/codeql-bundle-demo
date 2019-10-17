@@ -3,19 +3,20 @@
 vAPI is an API written specifically to illustrate common API vulnerabilities.
 It is implemented using the Bottle Python Framework and consists of a user database and a token database.
 
-## How is different from all the other vulnerable-API forks on GitHub?
+## How is this version different from all the other vulnerable-API forks on GitHub?
 
+1. It adds a business relevant widget reservation endpoint.
 1. It adds basic application logging (vAPI.log) for purple teaming demo purposes! 
-2. Log format is Splunk CIM comliant key=value right out of the box.
+1. Log format is Splunk CIM comliant key=value right out of the box.
 
 ## Usage
 
-1. git clone https://github.com/jorritfolmer/vulnerable-api.git
-2. yum install python-lxml
-3. yum install python-paste
-4. yum install python-pip
-5. pip install bottle
-6. python ./vAPI.py -p \<port\>
+1. `git clone https://github.com/jorritfolmer/vulnerable-api.git`
+2. `yum install python-lxml`
+3. `yum install python-paste`
+4. `yum install python-pip`
+5. `pip install bottle`
+6. `python ./vAPI.py -p <port>`
 7. have fun with OWASP ZAP or Burp
 
 ## vAPI Process flow
@@ -24,11 +25,12 @@ It is implemented using the Bottle Python Framework and consists of a user datab
   * Returns an auth token
   * Returns expiration date of auth token
   * Returns a user id
-2. Request user record from /user/<user_id>
+1. Request widget reservation from /widget
+  * Requires the auth token
+1. Request user record from /user/\<user\_id\>
   * Requires the auth token
   * Returns the user record for the user specfied, provided the auth token is not expired and is valid for the user id specified
   * Each user can only access their own record
-3. Request widget reservation from /widget
 
 ## Swagger and OpenAPI Spec 3
 
@@ -68,9 +70,51 @@ Also contained in this repo are API specification files to load in e.g. Burp or 
 | POST   | /user          | header:x-auth-token | 4, 6, 8, 9      
 | POST   | /user          | post:username       | 6, 9, 12, 13    
 | POST   | /user          | post:username       | 6, 9, 13        
-| GET    | /uptime        | -                   |                 
-| POST   | /uptime        | post:flag           | 11, 13          
+| GET    | /uptime{flag}  | -                   | 11, 13
 | POST   | /widget        | header:x-auth-token | 4, 6, 8, 9      
 | POST   | /widget        | post:widget         | 12              
+
+
+## Examples
+
+### /tokens endpoint
+
+```
+POST /tokens HTTP/1.1
+Content-Type: application/json
+
+{"auth":
+    {"passwordCredentials":
+        {"username": "USER_NAME",
+          "password":"PASSWORD"}
+    }
+}
+```
+
+### /widget endpoint
+
+```
+POST /widget HTTP/1.1
+Content-Type: application/json
+X-Auth-Token: USER TOKEN
+
+{"widget":
+    {"name": "widget01"}
+}
+```
+
+
+### /user endpoint
+
+```
+POST /user HTTP/1.1
+Content-type: application/json
+X-Auth-Token: ADMIN TOKEN
+
+{"user":
+	{"username": "USERNAME",
+	"password": "PASSWORD"}
+}
+```
 
 
