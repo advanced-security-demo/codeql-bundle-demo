@@ -10,6 +10,7 @@ The code is written to exemplify common API security vulnerabilities
 6. Passwords are not hashed in the database
 7. There is an *undocumented* GET that returns the user database
 """
+from __future__ import print_function
 
 import sqlite3
 import json
@@ -77,7 +78,7 @@ def get_token():
     else:
         try:
             data = request.json if request.json!=None else {}
-        except ValueError, e:
+        except ValueError as e:
             abort(400, "Bad request")
         username = data.get('auth',{}).get('passwordCredentials',{}).get('username',"")
         password = data.get('auth',{}).get('passwordCredentials',{}).get('password',"")
@@ -230,7 +231,7 @@ def create_user():
     if isinstance(token_record, tuple):
         try:
             data = request.json if request.json!=None else {}
-        except ValueError, e:
+        except ValueError as e:
             abort(400, "Bad request")
         name = data['user']['username']
         password = data['user']['password']
@@ -296,7 +297,7 @@ def create_widget_reservation():
     response = {}
     try:
         data = request.json if request.json!=None else {}
-    except ValueError, e:
+    except ValueError as e:
         abort(400, "Bad request")
     name = data.get('widget', {}).get('name',{})
     if isinstance(token_record, tuple):
@@ -331,12 +332,12 @@ debug(True)
 try:
     opts,args = getopt.getopt(sys.argv[1:],"hp:")
 except getopt.GetoptError:
-    print "vAPI.py -p <port>"
+    print("vAPI.py -p <port>")
     sys.exit(2)
 myport=8081
 for opt, arg in opts:
     if opt == "-h":
-        print "vAPI.py -p <port>"
+        print("vAPI.py -p <port>")
         sys.exit(0)
     elif opt == "-p":
         myport = arg

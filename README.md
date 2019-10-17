@@ -8,6 +8,7 @@ It is implemented using the Bottle Python Framework and consists of a user datab
 1. It adds a business relevant widget reservation endpoint.
 1. It adds basic application logging (vAPI.log) for purple teaming demo purposes! 
 1. Log format is Splunk CIM comliant key=value right out of the box.
+1. Python3 supported
 
 ## Usage
 
