@@ -118,4 +118,8 @@ X-Auth-Token: ADMIN TOKEN
 }
 ```
 
+## Docker
+
+1. `docker build -t vapi .`
+1. `docker run -p 8081:8081 vapi`
 
