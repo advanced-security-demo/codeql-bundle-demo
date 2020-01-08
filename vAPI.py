@@ -78,7 +78,7 @@ def get_token():
     else:
         try:
             data = request.json if request.json!=None else {}
-        except ValueError as e:
+        except ValueError:
             abort(400, "Bad request")
         username = data.get('auth',{}).get('passwordCredentials',{}).get('username',"")
         password = data.get('auth',{}).get('passwordCredentials',{}).get('password',"")
@@ -106,7 +106,7 @@ def get_token():
                 # after creation
                 expire_stamp = int(time.time() + 300)
                 expire_date = time.ctime(int(expire_stamp))
-                token = hashlib.md5(expire_date).hexdigest()
+                token = hashlib.md5(expire_date.encode('utf-8')).hexdigest()
                 # we'll parameterize this one because we need this serious
                 # functionality
                 c.execute(
@@ -128,7 +128,7 @@ def get_token():
             # no token exists. create one that expires in 5 minutes
             expire_stamp = int(time.time() + 300)
             expire_date = time.ctime(int(expire_stamp))
-            token = hashlib.md5(expire_date).hexdigest()
+            token = hashlib.md5(expire_date.encode('utf-8')).hexdigest()
             # we'll parameterize this one because we need this serious
             # functionality
             c.execute(
@@ -163,7 +163,6 @@ def get_get_token():
     this is an undocumented request. EASTER EGG
     /tokens is only supposed to accept a POST! Are you checking the other verbs?
     '''
-    src_ip=request.environ.get('HTTP_X_FORWARDED_FOR') or request.environ.get('REMOTE_ADDR')
     conn = sqlite3.connect('vAPI.db')
     c = conn.cursor()
     query = "SELECT * FROM users"
@@ -231,7 +230,7 @@ def create_user():
     if isinstance(token_record, tuple):
         try:
             data = request.json if request.json!=None else {}
-        except ValueError as e:
+        except ValueError:
             abort(400, "Bad request")
         name = data['user']['username']
         password = data['user']['password']
@@ -297,7 +296,7 @@ def create_widget_reservation():
     response = {}
     try:
         data = request.json if request.json!=None else {}
-    except ValueError as e:
+    except ValueError:
         abort(400, "Bad request")
     name = data.get('widget', {}).get('name',{})
     if isinstance(token_record, tuple):
@@ -340,5 +339,5 @@ for opt, arg in opts:
         print("vAPI.py -p <port>")
         sys.exit(0)
     elif opt == "-p":
-        myport = arg
+        myport = int(arg)
 run(server='paste', host='0.0.0.0', port=myport, reloader=True)

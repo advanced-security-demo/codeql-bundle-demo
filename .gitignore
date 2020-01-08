@@ -1,3 +1,5 @@
 .idea
 .vagrant
 vAPI.log
+.vscode
+venv/

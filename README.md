@@ -8,30 +8,29 @@ It is implemented using the Bottle Python Framework and consists of a user datab
 1. It adds a business relevant widget reservation endpoint.
 1. It adds basic application logging (vAPI.log) for purple teaming demo purposes! 
 1. Log format is Splunk CIM comliant key=value right out of the box.
-1. Python3 supported
+1. Python 3 supported
 
 ## Usage
 
 1. `git clone https://github.com/jorritfolmer/vulnerable-api.git`
-2. `yum install python-lxml`
-3. `yum install python-paste`
-4. `yum install python-pip`
-5. `pip install bottle`
-6. `python ./vAPI.py -p <port>`
-7. have fun with OWASP ZAP or Burp
+1. `virtualenv venv`
+1. `source venv/bin/activate`
+1. `pip install -r requirements`
+1. `python ./vAPI.py -p <port>`
+1. have fun with OWASP ZAP, Burp or Postman
 
 ## vAPI Process flow
 
 1. Request token from /tokens
-  * Returns an auth token
-  * Returns expiration date of auth token
-  * Returns a user id
+    - Returns an auth token
+    - Returns expiration date of auth token
+    - Returns a user id
 1. Request widget reservation from /widget
-  * Requires the auth token
+    - Requires the auth token
 1. Request user record from /user/\<user\_id\>
-  * Requires the auth token
-  * Returns the user record for the user specfied, provided the auth token is not expired and is valid for the user id specified
-  * Each user can only access their own record
+    - Requires the auth token
+    - Returns the user record for the user specfied, provided the auth token is not expired and is valid for the user id specified
+    - Each user can only access their own record
 
 ## Swagger and OpenAPI Spec 3
 
@@ -80,17 +79,18 @@ Also contained in this repo are API specification files to load in e.g. Burp or 
 
 ### /tokens endpoint
 
-```
-POST /tokens HTTP/1.1
-Content-Type: application/json
-
-{"auth":
-    {"passwordCredentials":
-        {"username": "USER_NAME",
-          "password":"PASSWORD"}
-    }
-}
-```
+````
+$ curl -X POST -H "Content-type: application/json" http://localhost:8081/tokens \
+-d '
+{
+  "auth": {
+    "passwordCredentials": {
+      "username":"user1",
+      "password":"pass1"
+      }
+  }
+}'
+````
 
 ### /widget endpoint
 
