@@ -1,14 +1,18 @@
 # What is vAPI
 
+![https://github.com/jorritfolmer/vulnerable-api/workflows/vAPI/badge.svg](https://github.com/jorritfolmer/vulnerable-api/workflows/vAPI/badge.svg)
+
 vAPI is an API written specifically to illustrate common API vulnerabilities.
-It is implemented using the Bottle Python Framework and consists of a user database and a token database.
+It is implemented using Python Flask + Connexion and consists of a user database and a token database.
 
 ## How is this version different from all the other vulnerable-API forks on GitHub?
 
+1. Python 3.5, 3.6, 3.7 and 3.8 supported.
+1. OpenAPI first, using [Connexion](https://github.com/zalando/connexion)
+1. Includes tests and an [OpenAPI 3 fuzzer](https://github.com/jorritfolmer/openapi3-fuzzer)
 1. It adds a business relevant widget reservation endpoint.
 1. It adds basic application logging (vAPI.log) for purple teaming demo purposes! 
 1. Log format is Splunk CIM comliant key=value right out of the box.
-1. Python 3 supported
 
 ## Usage
 
@@ -32,12 +36,11 @@ It is implemented using the Bottle Python Framework and consists of a user datab
     - Returns the user record for the user specfied, provided the auth token is not expired and is valid for the user id specified
     - Each user can only access their own record
 
-## Swagger and OpenAPI Spec 3
+## OpenAPI 3 spec
 
-Also contained in this repo are API specification files to load in e.g. Burp or OWASP ZAP for fun and profit.
+Also contained in this repo is the API specification file to load in e.g. Burp or OWASP ZAP for fun and profit.
 
-- A Swagger 2.0 definition file: vAPI-oas2.json
-- An OpenAPI Spec 3 (OAS3) file: vAPI-oas3.yaml
+- OpenAPI Spec 3 (OAS3) file: `openapi/vAPI.yaml`
 
 ## Known vulnerabilities
 
@@ -113,8 +116,8 @@ Content-type: application/json
 X-Auth-Token: ADMIN TOKEN
 
 {"user":
-	{"username": "USERNAME",
-	"password": "PASSWORD"}
+	{"username": "user",
+	"password": "pass"}
 }
 ```
 
@@ -123,3 +126,13 @@ X-Auth-Token: ADMIN TOKEN
 1. `docker build -t vapi .`
 1. `docker run -p 8081:8081 vapi`
 
+## Testing
+
+From the project root:
+
+```
+pip install -r requirements-test.txt
+coverage run -m unittest
+coverage report -m
+
+```

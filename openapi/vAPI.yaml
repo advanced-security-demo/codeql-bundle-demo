@@ -3,66 +3,56 @@ info:
   title: defaultTitle
   description: defaultDescription
   version: '0.1'
-servers:
-  - url: 'http://34.254.222.59:8081'
 paths:
   /:
     get:
-      description: Return OAS spec
+      description: Return API status
+      x-openapi-router-controller: vAPI
+      operationId: get_root
       responses:
         '200':
           description: Auto generated using Swagger Inspector
           content:
-            text/html; charset=UTF-8:
+            application/json; charset=UTF-8:
               schema:
                 type: string
               examples: {}
-      servers:
-        - url: 'http://34.254.222.59:8081'
-    servers:
-      - url: 'http://34.254.222.59:8081'
   /tokens:
     post:
       description: Authenticate
+      x-openapi-router-controller: vAPI
+      operationId: get_token
       requestBody:
         content:
-          application/json:
+          'application/json':
             schema:
               type: object
               properties:
-                auth:
-                  type: object
-                  properties:
-                    passwordCredentials:
-                      type: object
-                      properties:
-                        password:
-                          type: string
-                        username:
-                          type: string
+                password:
+                  type: string
+                username:
+                  type: string
             examples:
               '0':
                 value: |-
-                  {"auth":
-                      {"passwordCredentials":
-                          {"username": "USER_NAME",
-                            "password":"PASSWORD"}
-                      }
-                  }
+                  {"username": "user1",
+                   "password":"pass1"}
       responses:
         '200':
-          description: Auto generated using Swagger Inspector
+          description: Authentication response
           content:
-            text/html; charset=UTF-8:
+            application/json; charset=UTF-8:
               schema:
                 type: string
               examples: {}
-      servers:
-        - url: 'http://34.254.222.59:8081'
-    servers:
-      - url: 'http://34.254.222.59:8081'
+        '400':
+          description: Invalid input
+        '401':
+          description: Unauthorized
   /user/{user}:
     get:
+      x-openapi-router-controller: vAPI
+      operationId: get_user
       parameters:
         - in: path
           name: user
@@ -79,7 +69,7 @@ paths:
         '200':
           description: Auto generated using Swagger Inspector
           content:
-            application/json:
+            'application/json':
               schema:
                 type: object
                 properties:
@@ -96,13 +86,19 @@ paths:
                   value: >-
                     {"response": {"error": {"message": "token id THISISATOKEN
                     not found"}}}
-      servers:
-        - url: 'http://34.254.222.59:8081'
-    servers:
-      - url: 'http://34.254.222.59:8081'
+        '400':
+          description: Invalid input
+        '401':
+          description: Unauthenticated
+        '403':
+          description: Unauthorized
+        '404':
+          description: Not found
   /user:
     post:
       description: Auto generated using Swagger Inspector
+      x-openapi-router-controller: vAPI
+      operationId: create_user
       parameters:
         - name: X-Auth-Token
           in: header
@@ -111,20 +107,17 @@ paths:
           example: THISISATOKEN
       requestBody:
         content:
-          application/json:
+          'application/json':
             schema:
               type: object
               properties:
-                user:
-                  type: object
-                  properties:
-                    password:
-                      type: string
-                    username:
-                      type: string
+                password:
+                  type: string
+                username:
+                  type: string
             examples:
               '0':
-                value: "{\"user\":\n\t{\"username\": \"USERNAME\",\n\t\"password\": \"PASSWORD\"}\n}"
+                value: "{\"username\": \"USERNAME\",\"password\": \"PASSWORD\"}"
       responses:
         '200':
           description: Auto generated using Swagger Inspector
@@ -144,29 +137,30 @@ paths:
               examples:
                 '0':
                   value: >-
-                    {"response": {"error": {"message": "must provide valid admin
-                    token"}}}
-      servers:
-        - url: 'http://34.254.222.59:8081'
-    servers:
-      - url: 'http://34.254.222.59:8081'
+                    {"response": {"error": {"message": "must provide valid admin token"}}}
+        '400':
+          description: Invalid input
+        '401':
+          description: Unauthenticated
+        '403':
+          description: Unauthorized
   /uptime:
     get:
+      x-openapi-router-controller: vAPI
+      operationId: display_uptime
       description: Auto generated using Swagger Inspector
       responses:
         '200':
           description: Auto generated using Swagger Inspector
           content:
-            text/html; charset=UTF-8:
+            application/json; charset=UTF-8:
               schema:
                 type: string
               examples: {}
-      servers:
-        - url: 'http://34.254.222.59:8081'
-    servers:
-      - url: 'http://34.254.222.59:8081'
   /uptime/{flag}:
     get:
+      x-openapi-router-controller: vAPI
+      operationId: display_uptime_flag
       parameters:
         - in: path
           name: flag
@@ -178,11 +172,46 @@ paths:
         '200':
           description: Auto generated using Swagger Inspector
           content:
-            text/html; charset=UTF-8:
+            application/json; charset=UTF-8:
               schema:
                 type: string
               examples: {}
-      servers:
-        - url: 'http://34.254.222.59:8081'
-    servers:
-      - url: 'http://34.254.222.59:8081'
+        '404':
+          description: Not found
+  /widget:
+    post:
+      description: Make widget reservation
+      x-openapi-router-controller: vAPI
+      operationId: create_widget_reservation
+      parameters:
+        - name: X-Auth-Token
+          in: header
+          schema:
+            type: string
+          example: THISISATOKEN
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+            examples:
+              '0':
+                value: |-
+                  {"name": "widgetname"}
+      responses:
+        '200':
+          description: Successful widget reservation
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                type: string
+              examples: {}
+        '400':
+          description: Invalid input
+        '401':
+          description: Unauthenticated
+        '403':
+          description: Unauthorized
