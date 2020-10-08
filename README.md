@@ -9,7 +9,7 @@ It is implemented using Python Flask + Connexion and consists of a user database
 
 1. Python 3.5, 3.6, 3.7 and 3.8 supported.
 1. OpenAPI first, using [Connexion](https://github.com/zalando/connexion)
-1. Includes tests and an [OpenAPI 3 fuzzer](https://github.com/jorritfolmer/openapi3-fuzzer)
+1. Includes tests and an [OpenAPI 3 fuzzer](https://github.com/vwt-digital/openapi3-fuzzer)
 1. It adds a business relevant widget reservation endpoint.
 1. It adds basic application logging (vAPI.log) for purple teaming demo purposes! 
 1. Log format is Splunk CIM comliant key=value right out of the box.
