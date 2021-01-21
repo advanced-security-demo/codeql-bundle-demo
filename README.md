@@ -12,7 +12,7 @@ It is implemented using Python Flask + Connexion and consists of a user database
 1. Includes tests and an [OpenAPI 3 fuzzer](https://github.com/vwt-digital/openapi3-fuzzer)
 1. It adds a business relevant widget reservation endpoint.
 1. It adds basic application logging (vAPI.log) for purple teaming demo purposes! 
-1. Log format is Splunk CIM comliant key=value right out of the box.
+1. Log format is Splunk CIM compliant key=value right out of the box.
 
 ## Usage
 
