@@ -1,5 +1,6 @@
 FROM python:3.8.1-slim
 WORKDIR /usr/src/app
+COPY openapi ./openapi
 COPY requirements.txt .
 COPY vAPI.py .
 COPY vAPI.db .
