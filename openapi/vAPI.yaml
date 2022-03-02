@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
-  title: defaultTitle
-  description: defaultDescription
+  title: Vulnerable API
+  description: Vulnerable API
   version: '0.1'
 paths:
   /:
@@ -11,7 +11,7 @@ paths:
       operationId: get_root
       responses:
         '200':
-          description: Auto generated using Swagger Inspector
+          description: API status results
           content:
             application/json; charset=UTF-8:
               schema:
@@ -47,8 +47,24 @@ paths:
               examples: {}
         '400':
           description: Invalid input
+          content:
+            application/problem+json; charset=UTF-8:
+              schema:
+                type: string
         '401':
           description: Unauthorized
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                type: string
+              examples:
+                '0':
+                  value: |-
+                    {
+                      "error": {
+                        "message": "username  not found"
+                      }
+                    }
   /user/{user}:
     get:
       x-openapi-router-controller: vAPI
@@ -88,12 +104,28 @@ paths:
                     not found"}}}
         '400':
           description: Invalid input
+          content:
+            application/problem+json; charset=UTF-8:
+              schema:
+                type: string
         '401':
           description: Unauthenticated
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                type: string
         '403':
           description: Unauthorized
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                type: string
         '404':
           description: Not found
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                type: string
   /user:
     post:
       description: Auto generated using Swagger Inspector
@@ -140,10 +172,22 @@ paths:
                     {"response": {"error": {"message": "must provide valid admin token"}}}
         '400':
           description: Invalid input
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                type: string
         '401':
           description: Unauthenticated
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                type: string
         '403':
           description: Unauthorized
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                type: string
   /uptime:
     get:
       x-openapi-router-controller: vAPI
@@ -178,6 +222,10 @@ paths:
               examples: {}
         '404':
           description: Not found
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                type: string
   /widget:
     post:
       description: Make widget reservation
@@ -211,7 +259,19 @@ paths:
               examples: {}
         '400':
           description: Invalid input
+          content:
+            application/problem+json; charset=UTF-8:
+              schema:
+                type: string
         '401':
           description: Unauthenticated
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                type: string
         '403':
           description: Unauthorized
+          content:
+            application/json; charset=UTF-8:
+              schema:
+                type: string
