@@ -12,6 +12,7 @@ from time import sleep
 
 from test import BaseTestCase
 
+
 def do_post_req(mytestcase, ep, headers, payload):
     """
     Perform an actual POST request
@@ -22,15 +23,13 @@ def do_post_req(mytestcase, ep, headers, payload):
         # print("--- Starting POST request to {}".format(ep))
         sleep(0.05)
         r = self.client.open(
-            ep,
-            method='POST',
-            data=json.dumps(payload),
-            headers=headers)
+            ep, method="POST", data=json.dumps(payload), headers=headers
+        )
         # r = requests.post('{}'.format(ep), data=payload,
         #                   headers=headers, timeout=20, allow_redirects=False)
     except Exception as e:
         print("    Exception connecting to {} with {}".format(ep, str(e)))
-        return({"status_code": -1, "content": ""})
+        return {"status_code": -1, "content": ""}
     else:
         # print("    POST request to {} returned status {}: {}".format(ep, r.status_code, r.data))
         return r
@@ -45,22 +44,19 @@ def do_get_req(mytestcase, ep, headers):
     try:
         # print("--- Starting GET request to {}".format(ep))
         sleep(0.05)
-        r = self.client.open(
-            ep,
-            method='GET',
-            headers=headers)
+        r = self.client.open(ep, method="GET", headers=headers)
         # r = requests.get('{}'.format(ep), headers=headers,
         #                  timeout=20, allow_redirects=False)
     except Exception as e:
         print("    Exception connecting to {} with {}".format(ep, str(e)))
-        return({"status_code": -1, "content": ""})
+        return {"status_code": -1, "content": ""}
     else:
         # print("    GET request to {} returned status {}: {}".format(ep,r.status_code, r.content))
-        return(r)
+        return r
 
 
 def get_happyday_pattern(datatype):
-    fuzzdbfile = "test/fuzz-{}.txt".format(re.sub(r'[^a-zA-Z]', '', datatype))
+    fuzzdbfile = "test/fuzz-{}.txt".format(re.sub(r"[^a-zA-Z]", "", datatype))
     fuzzdbfallbackfile = "test/fuzz-fallback.txt"
     happydaystring = ""
     if os.path.exists(fuzzdbfile):
@@ -75,7 +71,7 @@ def get_happyday_pattern(datatype):
 
 
 def get_fuzz_patterns(datatype):
-    fuzzdbfile = "test/fuzz-{}.txt".format(re.sub(r'[^a-zA-Z]', '', datatype))
+    fuzzdbfile = "test/fuzz-{}.txt".format(re.sub(r"[^a-zA-Z]", "", datatype))
     fuzzdbfallbackfile = "test/fuzz-fallback.txt"
     lines = []
     if os.path.exists(fuzzdbfile):
@@ -99,8 +95,9 @@ def generate_happy_day_url_from_pathvars(baseurl, path, pathvars):
         for pathvar in pathvars:
             datatype = pathvar.get("schema", {}).get("type", "fallback")
             happydaystring = get_happyday_pattern(datatype)
-            url = url.replace("{{{}}}".format(
-                pathvar.get("name")), happydaystring.rstrip())
+            url = url.replace(
+                "{{{}}}".format(pathvar.get("name")), happydaystring.rstrip()
+            )
     return url
 
 
@@ -113,19 +110,19 @@ def generate_urls_from_pathvars(baseurl, path, pathvars):
     """
     urls = set()
     for pathvar in pathvars:
-        if pathvar.get('in', None) == 'path' and 'name' in pathvar.keys():
+        if pathvar.get("in", None) == "path" and "name" in pathvar.keys():
             datatype = pathvar.get("schema", {}).get("type", "fallback")
             lines = get_fuzz_patterns(datatype)
             for line in lines:
                 url = "{}{}".format(baseurl, path)
-                url = url.replace("{{{}}}".format(
-                    pathvar.get("name")), line.rstrip())
+                url = url.replace("{{{}}}".format(pathvar.get("name")), line.rstrip())
                 for otherpathvar in pathvars:
-                    datatype = otherpathvar.get(
-                        "schema", {}).get("type", "fallback")
+                    datatype = otherpathvar.get("schema", {}).get("type", "fallback")
                     happydaystring = get_happyday_pattern(datatype)
-                    url = url.replace("{{{}}}".format(
-                        otherpathvar.get("name")), happydaystring.rstrip())
+                    url = url.replace(
+                        "{{{}}}".format(otherpathvar.get("name")),
+                        happydaystring.rstrip(),
+                    )
                 urls.add(url)
     return urls
 
@@ -148,7 +145,11 @@ def generate_payloads_from_postvars(postvars):
                     datatype = postvars.get(param, {}).get("type", "")
                     happydaystring = get_happyday_pattern(datatype)
                     if param == fuzzparam:
-                        if jsontype == "int" or datatype == "int" or datatype == "number":
+                        if (
+                            jsontype == "int"
+                            or datatype == "int"
+                            or datatype == "number"
+                        ):
                             try:
                                 payload[param] = int(line.rstrip())
                             except ValueError:
@@ -172,13 +173,13 @@ def generate_payloads_from_postvars(postvars):
 
 
 def do_post_fuzzing(*args, **kwargs):
-    baseurl = kwargs.get('baseurl', "")
-    headers = kwargs.get('headers', {})
-    path = kwargs.get('path', None)
-    pathvars = kwargs.get('pathvars', {})
-    postvars = kwargs.get('postvars', {})
-    responses = kwargs.get('responses', [])
-    self = kwargs.get('mytestcase', None) 
+    baseurl = kwargs.get("baseurl", "")
+    headers = kwargs.get("headers", {})
+    path = kwargs.get("path", None)
+    pathvars = kwargs.get("pathvars", {})
+    postvars = kwargs.get("postvars", {})
+    responses = kwargs.get("responses", [])
+    self = kwargs.get("mytestcase", None)
 
     newresponses = []
     for response in responses:
@@ -203,17 +204,17 @@ def do_get_fuzzing(*args, **kwargs):
     """
     Perform fuzzing on a GET endpoint
     """
-    baseurl = kwargs.get('baseurl', "")
-    headers = kwargs.get('headers', {})
-    path = kwargs.get('path', None)
-    pathvars = kwargs.get('pathvars', {})
-    responses = kwargs.get('responses', [])
-    self = kwargs.get('mytestcase', None) 
+    baseurl = kwargs.get("baseurl", "")
+    headers = kwargs.get("headers", {})
+    path = kwargs.get("path", None)
+    pathvars = kwargs.get("pathvars", {})
+    responses = kwargs.get("responses", [])
+    self = kwargs.get("mytestcase", None)
 
     urls = generate_urls_from_pathvars(baseurl, path, pathvars)
     stats = {}
-    stats['path'] = path
-    stats['method'] = 'GET'
+    stats["path"] = path
+    stats["method"] = "GET"
 
     newresponses = []
     for response in responses:
@@ -230,6 +231,7 @@ def do_get_fuzzing(*args, **kwargs):
             self.assertIn(r.status_code, responses)
     return True
 
+
 def do_fuzzing(mytestcase, headers):
 
     self = mytestcase
@@ -238,52 +240,87 @@ def do_fuzzing(mytestcase, headers):
     parser = ResolvingParser("openapi/vAPI.yaml")
     spec = parser.specification  # contains fully resolved specs as a dict
     # print(json.dumps(parser.specification.get("paths").get("/employees/expenses/{expenses_id}/attachments").get("post"),indent=2))
-    for path, pathvalues in spec.get("paths",{}).items():
-        for method,methodvalues in pathvalues.items():
+    for path, pathvalues in spec.get("paths", {}).items():
+        for method, methodvalues in pathvalues.items():
             pathvars = {}
             # postvars = {}
-            if method == 'get':
-                if 'parameters' in methodvalues.keys():
-                    pathvars = methodvalues.get("parameters",{})
-                    responses = list(methodvalues.get("responses",{}).keys())
+            if method == "get":
+                if "parameters" in methodvalues.keys():
+                    pathvars = methodvalues.get("parameters", {})
+                    responses = list(methodvalues.get("responses", {}).keys())
                     # print("--------------------------------------------")
                     # print("GET fuzzing {}".format(path))
-                    do_get_fuzzing(mytestcase=self, baseurl=baseurl, headers=headers, path=path, pathvars=pathvars, responses=responses)
-            if method == 'post':
-                responses = list(methodvalues.get("responses",{}).keys())
-                if 'requestBody' in methodvalues.keys() and 'parameters' in methodvalues.keys():
+                    do_get_fuzzing(
+                        mytestcase=self,
+                        baseurl=baseurl,
+                        headers=headers,
+                        path=path,
+                        pathvars=pathvars,
+                        responses=responses,
+                    )
+            if method == "post":
+                responses = list(methodvalues.get("responses", {}).keys())
+                if (
+                    "requestBody" in methodvalues.keys()
+                    and "parameters" in methodvalues.keys()
+                ):
                     pathvars = methodvalues.get("parameters")
-                    postvars = methodvalues.get("requestBody",{}).get("content",{}).get("application/json",{}).get("schema",{}).get("properties",{})
+                    postvars = (
+                        methodvalues.get("requestBody", {})
+                        .get("content", {})
+                        .get("application/json", {})
+                        .get("schema", {})
+                        .get("properties", {})
+                    )
                     # print("--------------------------------------------")
                     # print("POST fuzzing param URL {}:".format(path))
-                    do_post_fuzzing(mytestcase=self, baseurl=baseurl, headers=headers, path=path, pathvars=pathvars, postvars=postvars, responses=responses)
-                elif 'requestBody' in methodvalues.keys():
-                    postvars = methodvalues.get("requestBody",{}).get("content",{}).get("application/json",{}).get("schema",{}).get("properties",{})
+                    do_post_fuzzing(
+                        mytestcase=self,
+                        baseurl=baseurl,
+                        headers=headers,
+                        path=path,
+                        pathvars=pathvars,
+                        postvars=postvars,
+                        responses=responses,
+                    )
+                elif "requestBody" in methodvalues.keys():
+                    postvars = (
+                        methodvalues.get("requestBody", {})
+                        .get("content", {})
+                        .get("application/json", {})
+                        .get("schema", {})
+                        .get("properties", {})
+                    )
                     # print("--------------------------------------------")
                     # print("POST fuzzing non-param URL {}:".format(path))
-                    do_post_fuzzing(mytestcase=self, baseurl=baseurl, headers=headers, path=path, postvars=postvars, responses=responses)
+                    do_post_fuzzing(
+                        mytestcase=self,
+                        baseurl=baseurl,
+                        headers=headers,
+                        path=path,
+                        postvars=postvars,
+                        responses=responses,
+                    )
 
 
 class TestvAPI(BaseTestCase):
-
     def test_unauth_fuzzing(self):
-        headers = { "Content-type": "application/json"}
+        headers = {"Content-type": "application/json"}
         do_fuzzing(self, headers)
 
     def test_auth_fuzzing(self):
-        headers = { "Content-type": "application/json"}
+        headers = {"Content-type": "application/json"}
         payload = {"username": "user1", "password": "pass1"}
         url = "/tokens"
         r = self.client.open(
-            url,
-            method='POST',
-            data=json.dumps(payload),
-            headers=headers)
-        self.assertEqual(r.status_code,200)
-        self.assertRegex(r.json['access']['token']['id'], r'\w{32}')
-        token = r.json['access']['token']['id']
+            url, method="POST", data=json.dumps(payload), headers=headers
+        )
+        self.assertEqual(r.status_code, 200)
+        self.assertRegex(r.json["access"]["token"]["id"], r"\w{32}")
+        token = r.json["access"]["token"]["id"]
         headers["X-Auth-Token"] = token
         do_fuzzing(self, headers)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()
