@@ -13,9 +13,9 @@ paths:
         '200':
           description: API status results
           content:
-            application/json; charset=UTF-8:
+            'application/json':
               schema:
-                type: string
+                type: object
               examples: {}
   /tokens:
     post:
@@ -41,20 +41,20 @@ paths:
         '200':
           description: Authentication response
           content:
-            application/json; charset=UTF-8:
+            'application/json':
               schema:
                 type: string
               examples: {}
         '400':
           description: Invalid input
           content:
-            application/problem+json; charset=UTF-8:
+            'application/problem+json':
               schema:
                 type: string
         '401':
           description: Unauthorized
           content:
-            application/json; charset=UTF-8:
+            'application/json':
               schema:
                 type: string
               examples:
@@ -105,25 +105,25 @@ paths:
         '400':
           description: Invalid input
           content:
-            application/problem+json; charset=UTF-8:
+            'application/problem+json':
               schema:
                 type: string
         '401':
           description: Unauthenticated
           content:
-            application/json; charset=UTF-8:
+            'application/json':
               schema:
                 type: string
         '403':
           description: Unauthorized
           content:
-            application/json; charset=UTF-8:
+            'application/json':
               schema:
                 type: string
         '404':
           description: Not found
           content:
-            application/json; charset=UTF-8:
+            'application/json':
               schema:
                 type: string
   /user:
@@ -154,7 +154,7 @@ paths:
         '200':
           description: Auto generated using Swagger Inspector
           content:
-            application/json:
+            'application/json':
               schema:
                 type: object
                 properties:
@@ -173,19 +173,19 @@ paths:
         '400':
           description: Invalid input
           content:
-            application/json; charset=UTF-8:
+            'application/json':
               schema:
                 type: string
         '401':
           description: Unauthenticated
           content:
-            application/json; charset=UTF-8:
+            'application/json':
               schema:
                 type: string
         '403':
           description: Unauthorized
           content:
-            application/json; charset=UTF-8:
+            'application/json':
               schema:
                 type: string
   /uptime:
@@ -197,7 +197,7 @@ paths:
         '200':
           description: Auto generated using Swagger Inspector
           content:
-            application/json; charset=UTF-8:
+            'application/json':
               schema:
                 type: string
               examples: {}
@@ -216,14 +216,14 @@ paths:
         '200':
           description: Auto generated using Swagger Inspector
           content:
-            application/json; charset=UTF-8:
+            'application/json':
               schema:
                 type: string
               examples: {}
         '404':
           description: Not found
           content:
-            application/json; charset=UTF-8:
+            'application/json':
               schema:
                 type: string
   /widget:
@@ -253,25 +253,25 @@ paths:
         '200':
           description: Successful widget reservation
           content:
-            application/json; charset=UTF-8:
+            'application/json':
               schema:
                 type: string
               examples: {}
         '400':
           description: Invalid input
           content:
-            application/problem+json; charset=UTF-8:
+            'application/problem+json':
               schema:
                 type: string
         '401':
           description: Unauthenticated
           content:
-            application/json; charset=UTF-8:
+            'application/json':
               schema:
                 type: string
         '403':
           description: Unauthorized
           content:
-            application/json; charset=UTF-8:
+            'application/json':
               schema:
                 type: string
