@@ -23,6 +23,7 @@ import xml.etree.ElementTree as ET
 import logging
 import sys
 import getopt
+import argparse
 from lxml import etree
 
 
@@ -367,20 +368,31 @@ if __name__ == "__main__":
         datefmt="%Y-%m-%dT%H:%M:%S",
         level=logging.INFO,
     )
-    logging.info("Starting vAPI")
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-p", dest="port", type=int, help="Listening port", default=8081
+    )
+    parser.add_argument(
+        "-s",
+        dest="oasfile",
+        type=str,
+        help="OpenAPI specification YAML file path",
+        default="vAPI.yaml",
+    )
+    args = parser.parse_args()
+    myport = args.port
+    oasfile = args.oasfile
+    logging.info(
+        'app=vAPI action=success signature="Starting vAPI on port {} using {}"'.format(
+            myport, oasfile
+        )
+    )
+    logging.info("Starting vAPI on port {} using {}".format(myport, oasfile))
     logger = logging.getLogger("vAPI")
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hp:")
-    except getopt.GetoptError:
-        print("vAPI.py -p <port>")
-        sys.exit(2)
-    myport = 8081
-    for opt, arg in opts:
-        if opt == "-h":
-            print("vAPI.py -p <port>")
-            sys.exit(0)
-        elif opt == "-p":
-            myport = int(arg)
-    app = connexion.FlaskApp(__name__, specification_dir="openapi/")
-    app.add_api("vAPI.yaml", arguments={"title": "Vulnerable API"})
-    app.run(port=myport, debug=True)
+        app = connexion.FlaskApp(__name__, specification_dir="openapi/")
+        app.add_api(oasfile, arguments={"title": "Vulnerable API"})
+        app.run(port=myport, debug=True)
+    except Exception as e:
+        logging.error('app=vAPI action=failure signature="Starting vAPI failed with exception: {}"'.format(str(e)))
+        print("Starting vAPI failed with exception: {}".format(e))
