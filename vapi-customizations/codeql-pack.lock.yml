@@ -1,0 +1,6 @@
+---
+dependencies:
+  codeql/python-all:
+    version: 0.4.1
+compiled: false
+lockVersion: 1.0.0

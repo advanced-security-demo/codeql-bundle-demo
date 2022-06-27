@@ -1,0 +1,7 @@
+---
+library: true
+name: advanced-security-demo/vapi-customizations
+version: 0.0.1
+dependencies:
+  codeql/python-all: 0.4.1
+extractor: python
