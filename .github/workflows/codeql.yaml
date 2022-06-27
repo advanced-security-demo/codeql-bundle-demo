@@ -23,9 +23,9 @@ jobs:
           gh release download --pattern 'codeql-bundle.tar.gz'
 
       - name: CodeQL Initialize
-        uses: github/codeql-action/init@v1
+        uses: github/codeql-action/init@v2
         with:
           tools: codeql-bundle.tar.gz
 
       - name: CodeQL Analyze
-        uses: github/codeql-action/analyze@v1
+        uses: github/codeql-action/analyze@v2
