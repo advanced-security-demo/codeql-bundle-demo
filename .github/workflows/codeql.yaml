@@ -26,6 +26,7 @@ jobs:
         uses: github/codeql-action/init@v2
         with:
           tools: codeql-bundle.tar.gz
+          queries: security-extended
 
       - name: CodeQL Analyze
         uses: github/codeql-action/analyze@v2
